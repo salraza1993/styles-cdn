@@ -1,0 +1,26 @@
+name: Production Build
+on:
+  push:
+    tags:
+      - "v*" # Trigger only on version tags
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build CSS
+        run: npm run build
+
+      - name: Verify dist output
+        run: ls -la dist

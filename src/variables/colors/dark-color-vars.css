@@ -1,0 +1,8 @@
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --canvas-bg: #121212;
+    --canvas-bg-hover: #1e1e1e;
+    --canvas-bg-active: #2c2c2c;
+    --canvas-bg-focus: #2c2c2c;
+  }
+}

@@ -1,0 +1,6 @@
+:root {
+  --canvas-bg: #fff;
+  --canvas-bg-hover: #f5f5f5;
+  --canvas-bg-active: #e0e0e0;
+  --canvas-bg-focus: #e0e0e0;
+}

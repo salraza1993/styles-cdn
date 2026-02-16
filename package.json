@@ -1,0 +1,31 @@
+{
+  "name": "styles-cdn",
+  "version": "1.0.0",
+  "description": "A lightweight, modular CSS library served via high-performance CDN.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
+    "release:patch": "npm run build && git add -A dist package.json && npm version patch -m \"chore(release): v%s\" && git push && git push --tags",
+    "release:minor": "npm run build && git add -A dist package.json && npm version minor -m \"chore(release): v%s\" && git push && git push --tags",
+    "release:major": "npm run build && git add -A dist package.json && npm version major -m \"chore(release): v%s\" && git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salraza1993/styles-cdn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/salraza1993/styles-cdn/issues"
+  },
+  "homepage": "https://github.com/salraza1993/styles-cdn#readme",
+  "devDependencies": {
+    "csso": "^5.0.5"
+  }
+}
