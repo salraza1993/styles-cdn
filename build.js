@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const csso = require('csso');
+const sass = require('sass');
 
 const srcDir = path.join(__dirname, 'src');
 const distDir = path.join(__dirname, 'dist');
+const tempBuildDir = path.join(__dirname, '.build-tmp');
 const IMPORT_FIXUPS = [
   ['forms.css', 'froms.css'],
   ['paddings.css', 'padding.css']
@@ -12,6 +14,61 @@ const IMPORT_FIXUPS = [
 function recreateDistDir() {
   fs.rmSync(distDir, { recursive: true, force: true });
   fs.mkdirSync(distDir, { recursive: true });
+}
+
+function recreateTempBuildDir() {
+  fs.rmSync(tempBuildDir, { recursive: true, force: true });
+  fs.mkdirSync(tempBuildDir, { recursive: true });
+}
+
+function getAllFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const absPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...getAllFiles(absPath));
+      continue;
+    }
+
+    if (entry.isFile()) files.push(absPath);
+  }
+
+  return files;
+}
+
+function compileScssSources() {
+  recreateTempBuildDir();
+
+  const sourceFiles = getAllFiles(srcDir);
+
+  for (const sourcePath of sourceFiles) {
+    const relPath = path.relative(srcDir, sourcePath);
+    const ext = path.extname(sourcePath).toLowerCase();
+
+    if (ext === '.scss') {
+      const cssRelPath = relPath.replace(/\.scss$/, '.css');
+      const outPath = path.join(tempBuildDir, cssRelPath);
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+
+      const result = sass.compile(sourcePath, {
+        style: 'expanded',
+        loadPaths: [srcDir]
+      });
+
+      fs.writeFileSync(outPath, result.css, 'utf8');
+      continue;
+    }
+
+    if (ext === '.css') {
+      const outPath = path.join(tempBuildDir, relPath);
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.copyFileSync(sourcePath, outPath);
+    }
+  }
+
+  return tempBuildDir;
 }
 
 function getAllCssFiles(dir) {
@@ -34,15 +91,29 @@ function getAllCssFiles(dir) {
 }
 
 function resolveImportPath(rawImportPath, fromFile) {
-  const directPath = path.resolve(path.dirname(fromFile), rawImportPath);
-  if (fs.existsSync(directPath)) return directPath;
+  const candidates = [rawImportPath];
+
+  if (rawImportPath.endsWith('.scss')) {
+    candidates.push(rawImportPath.replace(/\.scss$/, '.css'));
+  }
+
+  if (!path.extname(rawImportPath)) {
+    candidates.push(`${rawImportPath}.css`);
+  }
+
+  for (const candidate of candidates) {
+    const directPath = path.resolve(path.dirname(fromFile), candidate);
+    if (fs.existsSync(directPath)) return directPath;
+  }
 
   for (const [wrongName, fixedName] of IMPORT_FIXUPS) {
-    if (!rawImportPath.endsWith(wrongName)) continue;
+    for (const candidate of candidates) {
+      if (!candidate.endsWith(wrongName)) continue;
 
-    const fixedImportPath = rawImportPath.slice(0, -wrongName.length) + fixedName;
-    const fixedAbsPath = path.resolve(path.dirname(fromFile), fixedImportPath);
-    if (fs.existsSync(fixedAbsPath)) return fixedAbsPath;
+      const fixedImportPath = candidate.slice(0, -wrongName.length) + fixedName;
+      const fixedAbsPath = path.resolve(path.dirname(fromFile), fixedImportPath);
+      if (fs.existsSync(fixedAbsPath)) return fixedAbsPath;
+    }
   }
 
   return null;
@@ -84,7 +155,7 @@ function writeIndividualFiles(cssFiles) {
     }
 
     basenameToSource.set(fileName, absPath);
-    const content = fs.readFileSync(absPath, 'utf8');
+    const content = bundleFromEntry(absPath);
     fs.writeFileSync(path.join(distDir, fileName), content, 'utf8');
   }
 
@@ -134,17 +205,27 @@ function writeUtilsBundle(cssFiles) {
 function build() {
   recreateDistDir();
 
-  const cssFiles = getAllCssFiles(srcDir).sort();
-  const basenameToSource = writeIndividualFiles(cssFiles);
-  writeAliasFiles(basenameToSource);
-  writeUtilsBundle(cssFiles);
+  try {
+    const buildSourceDir = compileScssSources();
+    const cssFiles = getAllCssFiles(buildSourceDir).sort();
 
-  const entryFile = path.join(srcDir, 'index.css');
-  const bundled = bundleFromEntry(entryFile);
-  fs.writeFileSync(path.join(distDir, 'uifx.css'), bundled, 'utf8');
-  writeMinifiedCopies();
+    const basenameToSource = writeIndividualFiles(cssFiles);
+    writeAliasFiles(basenameToSource);
+    writeUtilsBundle(cssFiles);
 
-  console.log('Build complete ✅');
+    const entryFile = path.join(buildSourceDir, 'index.css');
+    if (!fs.existsSync(entryFile)) {
+      throw new Error('Missing entry file. Add src/index.css or src/index.scss');
+    }
+
+    const bundled = bundleFromEntry(entryFile);
+    fs.writeFileSync(path.join(distDir, 'uifx.css'), bundled, 'utf8');
+    writeMinifiedCopies();
+
+    console.log('Build complete ✅');
+  } finally {
+    fs.rmSync(tempBuildDir, { recursive: true, force: true });
+  }
 }
 
 build();

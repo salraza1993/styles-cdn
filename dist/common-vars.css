@@ -3,4 +3,8 @@
   --canvas-bg-hover: #f5f5f5;
   --canvas-bg-active: #e0e0e0;
   --canvas-bg-focus: #e0e0e0;
+  --color-mode: oklch;
+  --lightness: #ffffff;
+  --darkness: #000000;
+  --red: #fb2c36;
 }

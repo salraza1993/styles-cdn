@@ -9,6 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "release:patch": "npm run build && git add -A dist package.json && npm version patch -m \"chore(release): v%s\" && git push && git push --tags",
     "release:minor": "npm run build && git add -A dist package.json && npm version minor -m \"chore(release): v%s\" && git push && git push --tags",
     "release:major": "npm run build && git add -A dist package.json && npm version major -m \"chore(release): v%s\" && git push && git push --tags"
@@ -26,6 +28,8 @@
   },
   "homepage": "https://github.com/salraza1993/styles-cdn#readme",
   "devDependencies": {
-    "csso": "^5.0.5"
+    "csso": "^5.0.5",
+    "prettier": "^3.8.1",
+    "sass": "^1.97.3"
   }
 }
