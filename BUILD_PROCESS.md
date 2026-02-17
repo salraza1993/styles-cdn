@@ -16,6 +16,39 @@ Build output is generated in `dist/`:
 - individual component/util CSS files
 - `.min.css` copies
 
+### Selective `dist` generation (important)
+
+This repo uses `build.config.json` to control which individual files are emitted.
+
+Current default:
+
+- Includes top-level source groups: `base`, `colors`, `components`, `utils`
+- Excludes internal files starting with `_` (for example `_mixins.scss` → `_mixins.css` is not published)
+- Always generates main bundles (`uifx.css`, `uifx.min.css`) and `utils.css`
+
+Config file:
+
+```json
+{
+   "individualOutput": {
+      "mode": "selective",
+      "includeTopLevelDirs": ["base", "colors", "components", "utils"],
+      "includeFiles": [],
+      "excludeNamePrefixes": ["_"]
+   }
+}
+```
+
+To publish everything (old behavior), set:
+
+```json
+{
+   "individualOutput": {
+      "mode": "all"
+   }
+}
+```
+
 ## 2) Versioned release flow (recommended)
 
 Use one of these commands:

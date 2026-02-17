@@ -6,10 +6,42 @@ const sass = require('sass');
 const srcDir = path.join(__dirname, 'src');
 const distDir = path.join(__dirname, 'dist');
 const tempBuildDir = path.join(__dirname, '.build-tmp');
+const buildConfigPath = path.join(__dirname, 'build.config.json');
 const IMPORT_FIXUPS = [
   ['forms.css', 'froms.css'],
   ['paddings.css', 'padding.css']
 ];
+
+const DEFAULT_BUILD_CONFIG = {
+  individualOutput: {
+    mode: 'selective',
+    includeTopLevelDirs: ['base', 'colors', 'components', 'utils'],
+    includeFiles: [],
+    excludeNamePrefixes: ['_']
+  }
+};
+
+function loadBuildConfig() {
+  if (!fs.existsSync(buildConfigPath)) return DEFAULT_BUILD_CONFIG;
+
+  const rawConfig = JSON.parse(fs.readFileSync(buildConfigPath, 'utf8'));
+  const userConfig = rawConfig.individualOutput ?? {};
+
+  return {
+    individualOutput: {
+      mode: userConfig.mode === 'all' ? 'all' : 'selective',
+      includeTopLevelDirs: Array.isArray(userConfig.includeTopLevelDirs)
+        ? userConfig.includeTopLevelDirs
+        : DEFAULT_BUILD_CONFIG.individualOutput.includeTopLevelDirs,
+      includeFiles: Array.isArray(userConfig.includeFiles)
+        ? userConfig.includeFiles
+        : DEFAULT_BUILD_CONFIG.individualOutput.includeFiles,
+      excludeNamePrefixes: Array.isArray(userConfig.excludeNamePrefixes)
+        ? userConfig.excludeNamePrefixes
+        : DEFAULT_BUILD_CONFIG.individualOutput.excludeNamePrefixes
+    }
+  };
+}
 
 function recreateDistDir() {
   fs.rmSync(distDir, { recursive: true, force: true });
@@ -143,12 +175,25 @@ function bundleFromEntry(entryFile) {
   return readWithImports(entryFile).trim() + '\n';
 }
 
-function writeIndividualFiles(cssFiles) {
+function shouldWriteIndividualFile(absPath, buildSourceDir, config) {
+  const relPath = path.relative(buildSourceDir, absPath).replace(/\\/g, '/');
+  const fileName = path.basename(relPath);
+
+  if (fileName === 'index.css') return false;
+  if (config.excludeNamePrefixes.some(prefix => fileName.startsWith(prefix))) return false;
+  if (config.mode === 'all') return true;
+  if (config.includeFiles.includes(fileName)) return true;
+
+  const topLevelDir = relPath.split('/')[0];
+  return config.includeTopLevelDirs.includes(topLevelDir);
+}
+
+function writeIndividualFiles(cssFiles, buildSourceDir, config) {
   const basenameToSource = new Map();
 
   for (const absPath of cssFiles) {
     const fileName = path.basename(absPath);
-    if (fileName === 'index.css') continue;
+    if (!shouldWriteIndividualFile(absPath, buildSourceDir, config)) continue;
 
     if (basenameToSource.has(fileName)) {
       throw new Error(`Duplicate file name detected for dist output: ${fileName}`);
@@ -206,10 +251,11 @@ function build() {
   recreateDistDir();
 
   try {
+    const buildConfig = loadBuildConfig();
     const buildSourceDir = compileScssSources();
     const cssFiles = getAllCssFiles(buildSourceDir).sort();
 
-    const basenameToSource = writeIndividualFiles(cssFiles);
+    const basenameToSource = writeIndividualFiles(cssFiles, buildSourceDir, buildConfig.individualOutput);
     writeAliasFiles(basenameToSource);
     writeUtilsBundle(cssFiles);
 

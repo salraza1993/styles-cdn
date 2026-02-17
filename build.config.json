@@ -1,0 +1,8 @@
+{
+  "individualOutput": {
+    "mode": "selective",
+    "includeTopLevelDirs": ["base", "colors", "components", "utils"],
+    "includeFiles": [],
+    "excludeNamePrefixes": ["_"]
+  }
+}
