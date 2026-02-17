@@ -24,3 +24,6 @@ jobs:
 
       - name: Verify dist output
         run: ls -la dist
+
+      - name: Purge jsDelivr cache
+        run: npm run purge:cdn

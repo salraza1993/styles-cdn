@@ -127,9 +127,24 @@ Each command will:
 2. Commit `dist` + `package.json`
 3. Create a git tag like `v1.0.1`
 4. Push commit + tags to GitHub
+5. Purge jsDelivr cache for `@latest`, `@X.Y.Z`, and `@vX.Y.Z` across all `dist/*.css` files
+
+## Cache purge (manual)
+
+If you need to force-refresh CDN after a regular push, run:
+
+```bash
+npm run purge:cdn
+```
+
+This clears jsDelivr cache for every CSS file in `dist/` on:
+
+- `@latest`
+- current package version (`@X.Y.Z`)
+- matching tag format (`@vX.Y.Z`)
 
 ## Notes
 
 - Use `@latest` for dynamic updates.
 - Use `@vX.Y.Z` for stable production caching and safe rollbacks.
-- jsDelivr may cache aggressively; versioned tags are the cleanest production strategy.
+- jsDelivr may cache aggressively; this repo now purges cache automatically during release.

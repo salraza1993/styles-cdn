@@ -1,68 +1,32 @@
-@use "sass:map";
-@mixin generate-palette($name, $base-hex) {
-	$token-name: "" + $name;
-	$light-shades: (
-		50: (mix: var(--lightness), weight: 95%),
-		100: (mix: var(--lightness), weight: 90%),
-		200: (mix: var(--lightness), weight: 80%),
-		300: (mix: var(--lightness), weight: 60%),
-		400: (mix: var(--lightness), weight: 30%),
-	);
-
-	$dark-shades: (
-		600: (mix: var(--darkness), weight: 15%),
-		700: (mix: var(--darkness), weight: 35%),
-		800: (mix: var(--darkness), weight: 55%),
-		900: (mix: var(--darkness), weight: 75%),
-		950: (mix: var(--darkness), weight: 90%),
-	);
-
-	@each $shade, $settings in $light-shades {
-		$mix: map.get($settings, mix);
-		$weight: map.get($settings, weight);
-
-		--#{$token-name}-#{$shade}: color-mix(in var(--color-mode), var(--#{$token-name}), #{$mix} #{$weight});
-	}
-
-	--#{$token-name}-500: color-mix(in var(--color-mode), #{$base-hex});
-
-	@each $shade, $settings in $dark-shades {
-		$mix: map.get($settings, mix);
-		$weight: map.get($settings, weight);
-
-		--#{$token-name}-#{$shade}: color-mix(in var(--color-mode), var(--#{$token-name}), #{$mix} #{$weight});
-	}
-}
-
 // generate classes for each color
-@mixin generate-class($type, $color) {
+@mixin generateClass($type, $property, $color, $mode: "light") {
 	$shades: (
-		50: var(--#{$color}-50),
-		100: var(--#{$color}-100),
-		200: var(--#{$color}-200),
-		300: var(--#{$color}-300),
-		400: var(--#{$color}-400),
-    500: var(--#{$color}-500),
-    600: var(--#{$color}-600),
-    700: var(--#{$color}-700),
-    800: var(--#{$color}-800),
-    900: var(--#{$color}-900),
-    950: var(--#{$color}-950),
+		50: var(--#{$color}--50),
+		100: var(--#{$color}--100),
+		200: var(--#{$color}--200),
+		300: var(--#{$color}--300),
+		400: var(--#{$color}--400),
+    500: var(--#{$color}--500),
+    600: var(--#{$color}--600),
+    700: var(--#{$color}--700),
+    800: var(--#{$color}--800),
+    900: var(--#{$color}--900),
+    950: var(--#{$color}--950),
 	);
 
 	@each $shade, $settings in $shades {
-    @if($type == "text") {
-      .text-#{$color}-#{$shade} {
-        color: var(--#{$color}-#{$shade});
-      }
-    } @else if($type == "bg") {
-      .bg-#{$color}-#{$shade} {
-        background-color: var(--#{$color}-#{$shade});
-      }
-    } @else if($type == "border") {
-      .border-#{$color}-#{$shade} {
-        border-color: var(--#{$color}-#{$shade});
-      }
-    }
+    @include setClass($mode, $type, $property, $color, $shade);
 	}
+}
+
+@mixin setClass($mode, $type, $property, $color, $shade) {
+  @if($mode == "dark") {
+    .dark\:#{$type}-#{$color}--#{$shade} {
+      #{$property}: var(--#{$color}-#{$shade});
+    }
+  } @else {
+    .#{$type}-#{$color}--#{$shade} {
+      #{$property}: var(--#{$color}-#{$shade});
+    }
+  }
 }

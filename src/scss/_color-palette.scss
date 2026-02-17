@@ -1,0 +1,46 @@
+@use "sass:map";
+
+@mixin generatePalette($name, $base-hex) {
+	$token-name: "" + $name;
+	$light-shades: (
+		50: (mix: var(--lightness), weight: 5%),
+		100: (mix: var(--lightness), weight: 10%),
+		200: (mix: var(--lightness), weight: 25%),
+		300: (mix: var(--lightness), weight: 40%),
+		400: (mix: var(--lightness), weight: 60%),
+	);
+
+	$dark-shades: (
+		600: (mix: var(--darkness), weight: 80%),
+		700: (mix: var(--darkness), weight: 60%),
+		800: (mix: var(--darkness), weight: 40%),
+		900: (mix: var(--darkness), weight: 75%),
+		950: (mix: var(--darkness), weight: 90%),
+	);
+
+	@include lightShades($token-name, $light-shades);
+  --#{$token-name}--500: color-mix(in var(--color-mode), var(--#{$token-name}) 100%, var(--lightness) 0%);
+  @include darkShades($token-name, $dark-shades);
+}
+// light shades // 
+@mixin lightShades($tokenName, $shades) {
+  @each $shade, $settings in $shades {
+		$mix: map.get($settings, mix);
+		$weight: map.get($settings, weight);
+
+		--#{$tokenName}--#{$shade}: color-mix(in var(--color-mode), var(--#{$tokenName}) #{$weight}, #{$mix});
+	}
+}
+// dark shades //
+@mixin darkShades($tokenName, $shades) {
+  @each $shade, $settings in $shades {
+		$mix: map.get($settings, mix);
+		$weight: map.get($settings, weight);
+
+    @if($shade == 900 or $shade == 950) {
+      --#{$tokenName}--#{$shade}: color-mix(in var(--color-mode), var(--#{$tokenName}), #{$mix} #{$weight});
+    } @else {
+      --#{$tokenName}--#{$shade}: color-mix(in var(--color-mode), var(--#{$tokenName}) #{$weight}, #{$mix});
+    }
+	}
+}

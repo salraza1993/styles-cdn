@@ -1,0 +1,53 @@
+@use "../../scss/color-palette" as *;
+:root {
+  /* =====[Primary Color Variables]===== */
+	@include generatePalette(primary, var(--primary));
+  /* =====[Secondary Color Variables]===== */
+	@include generatePalette(secondary, var(--secondary));
+  /* =====[Accent Color Variables]===== */
+	@include generatePalette(accent, var(--accent));
+  /* =====[Red Color Variables]===== */
+	@include generatePalette(red, var(--red));
+  /* =====[Orange Color Variables]===== */
+	@include generatePalette(orange, var(--orange));
+  /* =====[Amber Color Variables]===== */
+	@include generatePalette(amber, var(--amber));
+  /* =====[Yellow Color Variables]===== */
+	@include generatePalette(yellow, var(--yellow));
+  /* =====[Lime Color Variables]===== */
+	@include generatePalette(lime, var(--lime));
+  /* =====[Green Color Variables]===== */
+	@include generatePalette(green, var(--green));
+  /* =====[Ember Color Variables]===== */
+	@include generatePalette(amber, var(--amber));
+  /* =====[Teal Color Variables]===== */
+	@include generatePalette(teal, var(--teal));
+  /* =====[Cyan Color Variables]===== */
+	@include generatePalette(cyan, var(--cyan));
+  /* =====[Sky Color Variables]===== */
+	@include generatePalette(sky, var(--sky));
+  /* =====[Blue Color Variables]===== */
+	@include generatePalette(blue, var(--blue));
+  /* =====[Indigo Color Variables]===== */
+  @include generatePalette(indigo, var(--indigo));
+  /* =====[Violet Color Variables]===== */
+  @include generatePalette(violet, var(--violet));
+  /* =====[Purple Color Variables]===== */
+  @include generatePalette(purple, var(--purple));
+  /* =====[Fuchsia Color Variables]===== */
+  @include generatePalette(fuchsia, var(--fuchsia));
+  /* =====[Pink Color Variables]===== */
+  @include generatePalette(pink, var(--pink));
+  /* =====[Rose Color Variables]===== */
+  @include generatePalette(rose, var(--rose));
+  /* =====[Slate Color Variables]===== */
+  @include generatePalette(slate, var(--slate));
+  /* =====[Gray Color Variables]===== */
+  @include generatePalette(gray, var(--gray));
+  /* =====[Zinc Color Variables]===== */
+  @include generatePalette(zinc, var(--zinc));
+  /* =====[Neutral Color Variables]===== */
+  @include generatePalette(neutral, var(--neutral));
+  /* =====[Stone Color Variables]===== */
+  @include generatePalette(stone, var(--stone));
+}

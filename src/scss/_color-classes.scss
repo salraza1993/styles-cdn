@@ -1,0 +1,15 @@
+@use "sass:list";
+@use "./mixins" as *;
+@use "./color-vars" as *;
+
+/* =====[ Background, Text, Border Classes ]===== */
+@mixin setClasses($mode: "light") {
+  @for $i from 1 through list.length($types) {
+    $type: list.nth($types, $i);
+    $property: list.nth($properties, $i);
+    @for $j from 1 through list.length($colors) {
+      $color: list.nth($colors, $j);
+      @include generateClass($type, $property, $color, $mode);
+    }
+  }
+}
