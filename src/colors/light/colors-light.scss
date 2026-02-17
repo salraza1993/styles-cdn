@@ -1,0 +1,115 @@
+@use "sass:list";
+@use "../../scss/mixins" as *;
+/* =====[ Background Color Classes ]===== */
+$types: ('bg', 'text', 'border');
+$colors: (
+  'primary',
+  'secondary',
+  'accent',
+  'red',
+  'orange',
+  'amber',
+  'yellow',
+  'lime',
+  'green',
+  'teal',
+  'cyan',
+  'sky',
+  'blue',
+  'indigo',
+  'violet',
+  'purple',
+  'fuchsia',
+  'pink',
+  'rose',
+  'slate',
+  'gray',
+  'zinc',
+  'neutral',
+  'stone',
+);
+
+@for $i from 1 through list.length($types) {
+  $type: list.nth($types, $i);
+
+  @for $j from 1 through list.length($colors) {
+    $color: list.nth($colors, $j);
+
+    @include generate-class($type, $color);
+  }
+}
+
+
+// @include generate-class('bg', 'primary');
+// @include generate-class('bg', 'secondary');
+// @include generate-class('bg', 'accent');
+// @include generate-class('bg', 'red');
+// @include generate-class('bg', 'orange');
+// @include generate-class('bg', 'amber');
+// @include generate-class('bg', 'yellow');
+// @include generate-class('bg', 'lime');
+// @include generate-class('bg', 'green');
+// @include generate-class('bg', 'teal');
+// @include generate-class('bg', 'cyan');
+// @include generate-class('bg', 'blue');
+// @include generate-class('bg', 'indigo');
+// @include generate-class('bg', 'violet');
+// @include generate-class('bg', 'purple');
+// @include generate-class('bg', 'fuchsia');
+// @include generate-class('bg', 'pink');
+// @include generate-class('bg', 'rose');
+// @include generate-class('bg', 'slate');
+// @include generate-class('bg', 'gray');
+// @include generate-class('bg', 'zinc');
+// @include generate-class('bg', 'neutral');
+// @include generate-class('bg', 'stone');
+
+// /* =====[ Text Color Classes ]===== */
+// @include generate-class('text', 'primary');
+// @include generate-class('text', 'secondary');
+// @include generate-class('text', 'accent');
+// @include generate-class('text', 'red');
+// @include generate-class('text', 'orange');
+// @include generate-class('text', 'amber');
+// @include generate-class('text', 'yellow');
+// @include generate-class('text', 'lime');
+// @include generate-class('text', 'green');
+// @include generate-class('text', 'teal');
+// @include generate-class('text', 'cyan');
+// @include generate-class('text', 'blue');
+// @include generate-class('text', 'indigo');
+// @include generate-class('text', 'violet');
+// @include generate-class('text', 'purple');
+// @include generate-class('text', 'fuchsia');
+// @include generate-class('text', 'pink');
+// @include generate-class('text', 'rose');
+// @include generate-class('text', 'slate');
+// @include generate-class('text', 'gray');
+// @include generate-class('text', 'zinc');
+// @include generate-class('text', 'neutral');
+// @include generate-class('text', 'stone');
+
+// /* =====[ Border Color Classes ]===== */
+// @include generate-class('border', 'primary');
+// @include generate-class('border', 'secondary');
+// @include generate-class('border', 'accent');
+// @include generate-class('border', 'red');
+// @include generate-class('border', 'orange');
+// @include generate-class('border', 'amber');
+// @include generate-class('border', 'yellow');
+// @include generate-class('border', 'lime');
+// @include generate-class('border', 'green');
+// @include generate-class('border', 'teal');
+// @include generate-class('border', 'cyan');
+// @include generate-class('border', 'blue');
+// @include generate-class('border', 'indigo');
+// @include generate-class('border', 'violet');
+// @include generate-class('border', 'purple');
+// @include generate-class('border', 'fuchsia');
+// @include generate-class('border', 'pink');
+// @include generate-class('border', 'rose');
+// @include generate-class('border', 'slate');
+// @include generate-class('border', 'gray');
+// @include generate-class('border', 'zinc');
+// @include generate-class('border', 'neutral');
+// @include generate-class('border', 'stone');
