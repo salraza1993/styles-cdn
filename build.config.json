@@ -2,7 +2,7 @@
   "individualOutput": {
     "mode": "selective",
     "includeTopLevelDirs": ["base", "colors", "components", "utils"],
-    "includeFiles": [],
+    "includeFiles": ["color-palettes.css", "color-variables.css"],
     "excludeNamePrefixes": ["_"]
   }
 }
