@@ -1,0 +1,94 @@
+@mixin utilsVariables() {
+  :root {
+    --spacing: var(--base-spacing, 0.25rem);
+    --spacing--xs: calc(var(--spacing) * 1);
+    --spacing--sm: calc(var(--spacing) * 1.25);
+    --spacing--md: calc(var(--spacing) * 1.5);
+    --spacing--lg: calc(var(--spacing) * 1.75);
+    --spacing--xl: calc(var(--spacing) * 2);
+    --spacing--2xl: calc(var(--spacing) * 2.25);
+    --spacing--3xl: calc(var(--spacing) * 2.5);
+    --spacing--4xl: calc(var(--spacing) * 2.75);
+    --spacing--5xl: calc(var(--spacing) * 3);
+    --spacing--6xl: calc(var(--spacing) * 4.5);
+    --spacing--7xl: calc(var(--spacing) * 6.5);
+    --spacing--9xl: calc(var(--spacing) * 8);
+    --spacing--10xl: calc(var(--spacing) * 10);
+
+    --radius: var(--base-radius, 0.5rem);
+    --radius--xs: calc(var(--radius) / 1.85);
+    --radius--sm: calc(var(--radius) / 1.5);
+    --radius--md: calc(var(--radius) * 1);
+    --radius--lg: calc(var(--radius) * 3.25);
+    --radius--xl: calc(var(--radius) * 4);
+    --radius--2xl: calc(var(--radius) * 4.5);
+
+    --gap: var(--base-gap, 0.5rem);
+    --gap--xs: calc(var(--gap) * 1);
+    --gap--sm: calc(var(--gap) * 1.25);
+    --gap--md: calc(var(--gap) * 1.5);
+    --gap--lg: calc(var(--gap) * 1.75);
+    --gap--xl: calc(var(--gap) * 2);
+    --gap--2xl: calc(var(--gap) * 2.25);
+    --gap--3xl: calc(var(--gap) * 2.5);
+    --gap--4xl: calc(var(--gap) * 2.75);
+    --gap--5xl: calc(var(--gap) * 3);
+    --gap--6xl: calc(var(--gap) * 4.5);
+    --gap--7xl: calc(var(--gap) * 5);
+    --gap--8xl: calc(var(--gap) * 6);
+    --gap--9xl: calc(var(--gap) * 6.5);
+    --gap--10xl: calc(var(--gap) * 8);
+  }
+}
+
+$sizes: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '9xl', '10xl');
+$axises: ('start', 'end', 'auto', '0');
+$margins: ('m', 'mx', 'mx-start', 'mx-end', 'my', 'my-start', 'my-end');
+$paddings: ('p', 'px', 'px-start', 'px-end', 'py', 'py-start', 'py-end');
+$radiuses: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', 'none', 'full', 'inherit', 'initial', 'unset');
+$radiusAxises: ('start-start', 'start-end', 'end-start', 'end-end', 'top-left', 'top-right', 'bottom-left', 'bottom-right');
+
+$gapSizes: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', '10xl');
+$gapAxises: ('row', 'col', 'auto', '0');
+
+$zIndexes: ('-5', '-4', '-3', '-2', '-1', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'initial', 'unset');
+$textAligns: ('start', 'center', 'end', 'justify', 'left', 'right', 'balance', 'pretty');
+
+$textVAlgin: ('baseline', 'bottom', 'middle', 'top', 'text-top', 'text-bottom', 'sub', 'super', 'inherit', 'initial', 'unset');
+
+$opacities: (
+  0: 0,
+  5: 0.05,
+  10: 0.1,
+  20: 0.2,
+  25: 0.25,
+  30: 0.3,
+  40: 0.4,
+  50: 0.5,
+  60: 0.6,
+  70: 0.7,
+  75: 0.75,
+  80: 0.8,
+  90: 0.9,
+  95: 0.95,
+  100: 1
+);
+$inlineClasses: (
+  'inline--block': 'inline-block',
+  'inline--flex': 'inline-flex',
+  'inline--grid': 'inline-grid',
+  'block': 'block',
+  'table': 'table'
+);
+
+$textDecorations: (
+  'underline': 'underline',
+  'overline': 'overline',
+  'line-through': 'line-through',
+  'no-underline': 'none',
+  'grammar-error': 'grammar-error',
+  'spelling-error': 'spelling-error'
+);
+
+$overflows: auto, hidden, clip, visible, scroll;
+$axes: x, y;

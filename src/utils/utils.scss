@@ -1,0 +1,50 @@
+@use './utils-vars' as *;
+@use './mixins' as *;
+
+/* =====[ :root variables ]===== */
+@include utilsVariables();
+
+/* =====[ Opacity Classes ]===== */
+@each $opacity, $value in $opacities {
+  .opacity--#{$opacity},
+  .opacity\:#{$opacity} {
+    opacity: $value;
+  }
+}
+
+/* =====[ Display Classes ]===== */
+@each $class, $display in $inlineClasses {
+  .#{$class} {
+    display: #{$display};
+  }
+}
+/* =====[ Text Decoration Classes ]===== */
+@each $class, $decoration in $textDecorations {
+  .#{$class} {
+    text-decoration-line: #{$decoration};
+  }
+}
+
+/* =====[ Margins Classes ]===== */
+@include spacingUtilities("margin");
+
+/* =====[ Paddings Classes ]===== */
+@include spacingUtilities("padding");
+
+/* =====[ Radius Classes ]===== */
+@include generateRadius();
+
+/* =====[ Gap Classes ]===== */
+@include generateGaps();
+
+/* =====[ Z-Index Classes ]===== */
+@include generateZIndexes();
+
+/* =====[ Text Align Classes ]===== */
+@include textAlignUtilities();
+
+/* =====[ Text Vertical Align Classes ]===== */
+@include textVerticalAlignUtilities();
+
+/* =====[ Overflow Classes ]===== */
+@include generateOverflows();

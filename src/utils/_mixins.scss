@@ -1,0 +1,218 @@
+@use "./utils-vars" as *;
+
+// ======== Margin Paddings : Starts ======== //
+@mixin spacingUtilities($type) {
+  @if($type == "margin") {
+    @include generateMargins($type);
+  } @else if($type == "padding") {
+    @include generatePaddings($type);
+  }
+}
+
+@mixin generateMargins($type) {
+  @each $margin in $margins {
+    @if($margin == "m") {
+      @include axisLoop($margin, "margin");
+      @include axisValueLoop($margin, "margin");
+    } @else if($margin == "mx") {
+      @include axisLoop($margin, "margin-inline");
+      @include axisValueLoop($margin, "margin-inline");
+    } @else if($margin == "my") {
+      @include axisLoop($margin, "margin-block");
+      @include axisValueLoop($margin, "margin-block");
+    } @else if($margin == "mx-start") {
+      @include axisLoop($margin, "margin-inline-start");
+      @include axisValueLoop($margin, "margin-inline-start");
+    } @else if($margin == "mx-end") {
+      @include axisLoop($margin, "margin-inline-end");
+      @include axisValueLoop($margin, "margin-inline-end");
+    } @else if($margin == "my-start") {
+      @include axisLoop($margin, "margin-block-start");
+      @include axisValueLoop($margin, "margin-block-start");
+    } @else if($margin == "my-end") {
+      @include axisLoop($margin, "margin-block-end");
+      @include axisValueLoop($margin, "margin-block-end");
+    }
+  }
+}
+@mixin generatePaddings($type) {
+  @each $padding in $paddings {
+    @if($padding == "p") {
+      @include axisLoop($padding, "padding");
+      @include axisValueLoop($padding, "padding");
+    } @else if($padding == "px") {
+      @include axisLoop($padding, "padding-inline");
+      @include axisValueLoop($padding, "padding-inline");
+    } @else if($padding == "py") {
+      @include axisLoop($padding, "padding-block");
+      @include axisValueLoop($padding, "padding-block");
+    } @else if($padding == "px-start") {
+      @include axisLoop($padding, "padding-inline-start");
+      @include axisValueLoop($padding, "padding-inline-start");
+    } @else if($padding == "px-end") {
+      @include axisLoop($padding, "padding-inline-end");
+      @include axisValueLoop($padding, "padding-inline-end");
+    } @else if($padding == "py-start") {
+      @include axisLoop($padding, "padding-block-start");
+      @include axisValueLoop($padding, "padding-block-start");
+    } @else if($padding == "py-end") {
+      @include axisLoop($padding, "padding-block-end");
+      @include axisValueLoop($padding, "padding-block-end");
+    }
+  }
+}
+@mixin axisLoop($type, $property) {
+  @each $size in $sizes {
+    .#{$type}--#{$size} {
+      #{$property}: var(--spacing--#{$size});
+    }
+  }
+}
+@mixin axisValueLoop($type, $property) {
+  @each $axis in $axises {
+    @if($axis == "auto") {
+      .#{$type}--#{$axis} {
+        #{$property}: auto;
+      }
+    } @else if($axis == "0") {
+      .#{$type}--#{$axis} {
+        #{$property}: 0;
+      }
+    }
+  }
+}
+// ======== Margin Paddings : Ends ======== //
+
+
+// ======== Radius ======== //
+@mixin generateRadius() {
+  .rounded {
+    border-radius: var(--radius);
+  }
+  @each $radius in $radiuses {
+    @if($radius == "inherit" or $radius == "initial" or $radius == "unset") {
+      .rounded--#{$radius} {
+        border-radius: #{$radius};
+      }
+    } @else if($radius == "none") {
+      .rounded--#{$radius} {
+        border-radius: 0;
+      }
+    } @else if($radius == "full") {
+      .rounded--#{$radius} {
+        border-radius: 100vw;
+      }
+    } @else {
+      .rounded--#{$radius} {
+        border-radius: var(--radius--#{$radius});
+      }
+    }
+  }
+  @each $axis in $radiusAxises {
+    @each $radius in $radiuses {
+      .rounded-#{$axis}--#{$radius} {
+        @if($radius == "inherit" or $radius == "initial" or $radius == "unset") {
+          border-#{$axis}-radius: #{$radius};
+        } @else if($radius == "none") {
+          border-#{$axis}-radius: 0;
+        } @else if($radius == "full") {
+          border-#{$axis}-radius: 100vw;
+        } @else {
+          border-#{$axis}-radius: var(--radius--#{$radius});
+        }
+      }
+    }
+  }
+}
+
+// ======== Gaps ======== //
+@mixin generateGaps() {
+  .gap { gap: var(--gap); }
+  .gap-x { row-gap: var(--gap); }
+  .gap-y { column-gap: var(--gap); }
+  @each $gap in $gapSizes {
+    .gap--#{$gap} {
+      gap: var(--gap--#{$gap});
+    }
+  }
+  @each $axis in $gapAxises {
+    @if($axis == "auto") {
+      .gap--#{$axis} {
+        gap: auto;
+      }
+    } @else if($axis == "0") {
+      .gap--#{$axis} {
+        gap: 0;
+      }
+    } 
+    @each $gap in $gapSizes {
+      @if($axis == "row") {
+        .gap-x--#{$gap} {
+          row-gap: var(--gap--#{$gap});
+        }
+      } @else if($axis == "col") {
+        .gap-y--#{$gap} {
+          column-gap: var(--gap--#{$gap});
+        }
+      }
+    }
+  }
+}
+
+// ======== Z-Index ======== //
+@mixin generateZIndexes() {
+  @each $zIndex in $zIndexes {
+    @if($zIndex == "-5" or $zIndex == "-4" or $zIndex == "-3" or $zIndex == "-2" or $zIndex == "-1") {
+      .z-index\:#{$zIndex},
+      .active\:z-index\:#{$zIndex}.active,
+      .hover\:z-index\:#{$zIndex}:hover,
+      .focus\:z-index\:#{$zIndex}:focus { z-index: #{$zIndex}; }
+    } @else {
+      .z-index\:#{$zIndex},
+      .active\:z-index\:\/#{$zIndex}.active,
+      .hover\:z-index\:\/#{$zIndex}:hover,
+      .focus\:z-index\:\/#{$zIndex}:focus { z-index: #{$zIndex}; }
+    }
+  }
+}
+
+// ======== Text Align ======== //
+@mixin textAlignUtilities() {
+  @each $align in $textAligns {
+    @if( $align == "balance" or $align == "pretty" ) {
+      .text--#{$align} {
+        text-wrap: #{$align};
+      }
+    } @else {
+      .text--#{$align} {
+        text-align: #{$align};
+      }
+    }
+  }
+}
+@mixin textVerticalAlignUtilities() {
+  @each $align in $textVAlgin {
+    .align--#{$align} {
+      vertical-align: #{$align};
+    }
+  }
+}
+
+// ======== Overflow ======== //
+@mixin generateOverflows() {
+  // Base overflow
+  @each $value in $overflows {
+    .overflow--#{$value} {
+      overflow: $value;
+    }
+  }
+
+  // Axis overflow (x & y)
+  @each $axis in $axes {
+    @each $value in $overflows {
+      .overflow-#{$axis}--#{$value} {
+        overflow-#{$axis}: $value;
+      }
+    }
+  }
+}

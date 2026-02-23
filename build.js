@@ -8,7 +8,7 @@ const distDir = path.join(__dirname, 'dist');
 const tempBuildDir = path.join(__dirname, '.build-tmp');
 const buildConfigPath = path.join(__dirname, 'build.config.json');
 const IMPORT_FIXUPS = [
-  ['forms.css', 'froms.css'],
+  ['forms.css', 'forms.css'],
   ['paddings.css', 'padding.css']
 ];
 
@@ -70,12 +70,18 @@ function getAllFiles(dir) {
   return files;
 }
 
+function isUnderscorePrefixed(filePath) {
+  return path.basename(filePath).startsWith('_');
+}
+
 function compileScssSources() {
   recreateTempBuildDir();
 
   const sourceFiles = getAllFiles(srcDir);
 
   for (const sourcePath of sourceFiles) {
+    if (isUnderscorePrefixed(sourcePath)) continue;
+
     const relPath = path.relative(srcDir, sourcePath);
     const ext = path.extname(sourcePath).toLowerCase();
 
@@ -154,14 +160,19 @@ function resolveImportPath(rawImportPath, fromFile) {
 function bundleFromEntry(entryFile) {
   const visited = new Set();
 
+  const isPartialImport = (importPath) => path.basename(importPath).startsWith('_');
+
   const readWithImports = (filePath) => {
     if (visited.has(filePath)) return '';
     visited.add(filePath);
 
     const content = fs.readFileSync(filePath, 'utf8');
     const importRegex = /^@import\s+['\"](.+?)['\"]\s*;\s*$/gm;
+    const blockCommentRegex = /\/\*[\s\S]*?\*\//g;
 
-    return content.replace(importRegex, (_, importPath) => {
+    const replaceImports = (segment) => segment.replace(importRegex, (_, importPath) => {
+      if (isPartialImport(importPath)) return '';
+
       const resolvedImport = resolveImportPath(importPath, filePath);
       if (!resolvedImport) {
         console.warn(`Skipped missing import: ${importPath} (from ${path.relative(__dirname, filePath)})`);
@@ -170,6 +181,22 @@ function bundleFromEntry(entryFile) {
 
       return `${readWithImports(resolvedImport)}\n`;
     });
+
+    let result = '';
+    let lastIndex = 0;
+
+    for (const blockMatch of content.matchAll(blockCommentRegex)) {
+      const commentStart = blockMatch.index ?? 0;
+      const commentText = blockMatch[0] ?? '';
+
+      result += replaceImports(content.slice(lastIndex, commentStart));
+      result += commentText;
+
+      lastIndex = commentStart + commentText.length;
+    }
+
+    result += replaceImports(content.slice(lastIndex));
+    return result;
   };
 
   return readWithImports(entryFile).trim() + '\n';
@@ -209,7 +236,7 @@ function writeIndividualFiles(cssFiles, buildSourceDir, config) {
 
 function writeAliasFiles(basenameToSource) {
   const aliasMap = [
-    { target: 'form-elements.css', sources: ['forms.css', 'froms.css'] }
+    { target: 'form-elements.css', sources: ['forms.css', 'forms.css'] }
   ];
 
   for (const alias of aliasMap) {
@@ -236,6 +263,7 @@ function writeMinifiedCopies() {
 function writeUtilsBundle(cssFiles) {
   const utilsFiles = cssFiles
     .filter(filePath => filePath.includes(`${path.sep}utils${path.sep}`))
+    .filter(filePath => !isUnderscorePrefixed(filePath))
     .filter(filePath => path.basename(filePath) !== 'index.css')
     .sort();
 
