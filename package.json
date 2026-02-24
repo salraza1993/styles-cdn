@@ -1,6 +1,6 @@
 {
   "name": "styles-cdn",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A lightweight, modular CSS library served via high-performance CDN.",
   "main": "index.js",
   "directories": {
