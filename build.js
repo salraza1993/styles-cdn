@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const csso = require('csso');
+const { transform } = require('lightningcss');
 const sass = require('sass');
 
 const srcDir = path.join(__dirname, 'src');
@@ -256,7 +256,106 @@ function writeMinifiedCopies() {
     const sourcePath = path.join(distDir, file);
     const minPath = path.join(distDir, file.replace(/\.css$/, '.min.css'));
     const content = fs.readFileSync(sourcePath, 'utf8');
-    fs.writeFileSync(minPath, csso.minify(content).css, 'utf8');
+
+    const result = transform({
+      filename: file,
+      code: Buffer.from(content),
+      minify: true,
+      drafts: {
+        nesting: true
+      },
+      include: 0,
+      exclude: 0
+    });
+
+    fs.writeFileSync(minPath, Buffer.from(result.code).toString('utf8'), 'utf8');
+  }
+}
+
+function rewriteDarkVariantRulesAsNested(filePath) {
+  if (!fs.existsSync(filePath)) return;
+
+  const content = fs.readFileSync(filePath, 'utf8');
+  const selectorRegex = /([^{}]+?)\s+(\.dark\\:[^\s{]+)\s*\{([\s\S]*?)\}/g;
+  const matches = [...content.matchAll(selectorRegex)].filter(match => {
+    const parentSelector = (match[1] ?? '').trim();
+    return parentSelector && !parentSelector.startsWith('@');
+  });
+
+  if (!matches.length) return;
+
+  const groups = new Map();
+
+  for (const match of matches) {
+    const fullMatch = match[0] ?? '';
+    const start = match.index ?? 0;
+    const end = start + fullMatch.length;
+    const parentSelector = (match[1] ?? '').trim();
+    const childSelector = (match[2] ?? '').trim();
+    const declarations = (match[3] ?? '').trim();
+
+    if (!groups.has(parentSelector)) {
+      groups.set(parentSelector, {
+        parentSelector,
+        firstIndex: start,
+        ranges: [],
+        rules: []
+      });
+    }
+
+    const group = groups.get(parentSelector);
+    group.ranges.push([start, end]);
+    group.rules.push({ childSelector, declarations });
+  }
+
+  const orderedGroups = [...groups.values()].sort((a, b) => a.firstIndex - b.firstIndex);
+
+  let stripped = '';
+  let cursor = 0;
+
+  const allRanges = orderedGroups
+    .flatMap(group => group.ranges)
+    .sort((a, b) => a[0] - b[0]);
+
+  for (const [start, end] of allRanges) {
+    stripped += content.slice(cursor, start);
+    cursor = end;
+
+    while (content[cursor] === '\r' || content[cursor] === '\n') cursor += 1;
+  }
+
+  stripped += content.slice(cursor);
+
+  let rebuilt = stripped;
+
+  for (const group of orderedGroups.sort((a, b) => b.firstIndex - a.firstIndex)) {
+    const nestedRules = group.rules
+      .map(rule => {
+        const declarationLines = rule.declarations
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => `    ${line}`)
+          .join('\n');
+
+        return `  ${rule.childSelector} {\n${declarationLines}\n  }`;
+      })
+      .join('\n\n');
+
+    const needsLeadingBreak = group.firstIndex > 0 && rebuilt[group.firstIndex - 1] !== '\n';
+    const needsTrailingBreak = rebuilt[group.firstIndex] !== '\n';
+    const nestedBlock = `${needsLeadingBreak ? '\n' : ''}${group.parentSelector} {\n${nestedRules}\n}${needsTrailingBreak ? '\n' : ''}`;
+    rebuilt = `${rebuilt.slice(0, group.firstIndex)}${nestedBlock}${rebuilt.slice(group.firstIndex)}`;
+  }
+
+  fs.writeFileSync(filePath, rebuilt, 'utf8');
+}
+
+function rewriteDarkVariantRulesAsNestedInDist() {
+  const distFiles = fs.readdirSync(distDir).filter(file => file.endsWith('.css') && !file.endsWith('.min.css'));
+
+  for (const file of distFiles) {
+    rewriteDarkVariantRulesAsNested(path.join(distDir, file));
   }
 }
 
@@ -294,6 +393,7 @@ function build() {
 
     const bundled = bundleFromEntry(entryFile);
     fs.writeFileSync(path.join(distDir, 'uifx.css'), bundled, 'utf8');
+    rewriteDarkVariantRulesAsNestedInDist();
     writeMinifiedCopies();
 
     console.log('Build complete ✅');

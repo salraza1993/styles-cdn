@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/salraza1993/styles-cdn#readme",
   "devDependencies": {
-    "csso": "^5.0.5",
+    "lightningcss": "^1.31.1",
     "prettier": "^3.8.1",
     "sass": "^1.97.3"
   }

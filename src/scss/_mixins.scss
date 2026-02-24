@@ -22,11 +22,11 @@
 @mixin setClass($mode, $type, $property, $color, $shade) {
   @if($mode == "dark") {
     .dark\:#{$type}-#{$color}--#{$shade} {
-      #{$property}: var(--#{$color}-#{$shade});
+      #{$property}: var(--#{$color}--#{$shade});
     }
   } @else {
     .#{$type}-#{$color}--#{$shade} {
-      #{$property}: var(--#{$color}-#{$shade});
+      #{$property}: var(--#{$color}--#{$shade});
     }
   }
 }
