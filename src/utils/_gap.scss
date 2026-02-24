@@ -1,0 +1,34 @@
+@use "./utils-vars" as *;
+
+@mixin gapUtils() {
+  .gap { gap: var(--gap); }
+  .gap-x { row-gap: var(--gap); }
+  .gap-y { column-gap: var(--gap); }
+  @each $gap in $sizes {
+    .gap--#{$gap} {
+      gap: var(--gap--#{$gap});
+    }
+  }
+  @each $axis in $gapAxises {
+    @if($axis == "auto") {
+      .gap--#{$axis} {
+        gap: auto;
+      }
+    } @else if($axis == "0") {
+      .gap--#{$axis} {
+        gap: 0;
+      }
+    } 
+    @each $gap in $sizes {
+      @if($axis == "row") {
+        .gap-x--#{$gap} {
+          row-gap: var(--gap--#{$gap});
+        }
+      } @else if($axis == "col") {
+        .gap-y--#{$gap} {
+          column-gap: var(--gap--#{$gap});
+        }
+      }
+    }
+  }
+}

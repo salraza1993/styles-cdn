@@ -88,7 +88,7 @@ npm run build
 
 ### SCSS support (still outputs CSS)
 
-You can now write `.scss` files inside `src/` (including `src/index.scss`).
+You can now write `.scss` files inside `src/` (including `src/uifx.scss`).
 The build compiles SCSS first, then publishes only CSS files to `dist/`.
 
 Example imports in SCSS:

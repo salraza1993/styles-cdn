@@ -1,50 +1,69 @@
 @use './utils-vars' as *;
 @use './mixins' as *;
 
+@use './cursors' as *;
+@use './text' as *;
+@use './flex' as *;
+@use './grid' as *;
+@use './display' as *;
+@use './opacity' as *;
+@use './gap' as *;
+@use './radius' as *;
+@use './margin' as *;
+@use './padding' as *;
+@use './height' as *;
+@use './width' as *;
+@use './font' as *;
+@use './others' as *;
+
 /* =====[ :root variables ]===== */
 @include utilsVariables();
 
 /* =====[ Opacity Classes ]===== */
-@each $opacity, $value in $opacities {
-  .opacity--#{$opacity},
-  .opacity\:#{$opacity} {
-    opacity: $value;
-  }
-}
+@include opacityUtilities();
 
 /* =====[ Display Classes ]===== */
-@each $class, $display in $inlineClasses {
-  .#{$class} {
-    display: #{$display};
-  }
-}
-/* =====[ Text Decoration Classes ]===== */
-@each $class, $decoration in $textDecorations {
-  .#{$class} {
-    text-decoration-line: #{$decoration};
-  }
-}
+@include displayUtilities();
+
+/* =====[ Flex Classes ]===== */
+@include flexUtils();
+
+/* =====[ Grid Classes ]===== */
+@include gridUtils();
 
 /* =====[ Margins Classes ]===== */
-@include spacingUtilities("margin");
+@include marginUtils("margin");
 
 /* =====[ Paddings Classes ]===== */
-@include spacingUtilities("padding");
+@include paddingUtils("padding");
 
 /* =====[ Radius Classes ]===== */
-@include generateRadius();
+@include radiusUtils();
 
 /* =====[ Gap Classes ]===== */
-@include generateGaps();
+@include gapUtils();
 
 /* =====[ Z-Index Classes ]===== */
-@include generateZIndexes();
+@include zIndexUtils();
 
 /* =====[ Text Align Classes ]===== */
-@include textAlignUtilities();
-
-/* =====[ Text Vertical Align Classes ]===== */
-@include textVerticalAlignUtilities();
+@include textUtilities();
+@include textUtilities();
 
 /* =====[ Overflow Classes ]===== */
-@include generateOverflows();
+@include overflowUtils();
+
+/* =====[ Cursor Classes ]===== */
+@include generateCursors();
+
+/* =====[ Width Classes ]===== */
+@include widthUtils();
+
+/* =====[ Height Classes ]===== */
+@include heightUtils();
+
+/* =====[ Height Classes ]===== */
+@include inlineSizesUtils();
+
+/* =====[ Font Classes ]===== */
+@include fontUtils();

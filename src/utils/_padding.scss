@@ -1,0 +1,29 @@
+@use "./utils-vars" as *;
+@use "./mixins" as *;
+
+@mixin paddingUtils($type) {
+  @each $padding in $paddings {
+    @if($padding == "p") {
+      @include axisLoop($padding, "padding");
+      @include axisValueLoop($padding, "padding");
+    } @else if($padding == "px") {
+      @include axisLoop($padding, "padding-inline");
+      @include axisValueLoop($padding, "padding-inline");
+    } @else if($padding == "py") {
+      @include axisLoop($padding, "padding-block");
+      @include axisValueLoop($padding, "padding-block");
+    } @else if($padding == "px-start") {
+      @include axisLoop($padding, "padding-inline-start");
+      @include axisValueLoop($padding, "padding-inline-start");
+    } @else if($padding == "px-end") {
+      @include axisLoop($padding, "padding-inline-end");
+      @include axisValueLoop($padding, "padding-inline-end");
+    } @else if($padding == "py-start") {
+      @include axisLoop($padding, "padding-block-start");
+      @include axisValueLoop($padding, "padding-block-start");
+    } @else if($padding == "py-end") {
+      @include axisLoop($padding, "padding-block-end");
+      @include axisValueLoop($padding, "padding-block-end");
+    }
+  }
+}

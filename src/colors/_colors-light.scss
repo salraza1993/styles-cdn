@@ -1,0 +1,4 @@
+@use "../scss/color-classes" as *;
+/* =====[ Background, Text, Border Classes ]===== */
+@include setClasses("light");
+

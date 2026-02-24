@@ -1,27 +1,106 @@
-.flex { display: flex; }
-.flex--row { flex-direction: row; }
-.flex--col { flex-direction: column; }
-.flex--row-reverse, .row-reverse { flex-direction: row-reverse; }
-.flex--col-reverse, .col-reverse { flex-direction: column-reverse; }
-.flex--no-wrap, .no-wrap { flex-wrap: nowrap; }
-.flex--wrap, .wrap { flex-wrap: wrap; }
-.flex-shrink--0, .shrink--0 { flex-shrink: 0; }
-.flex-shrink--1, .shrink--1 { flex-shrink: 1; }
-.flex-grow--0, .grow--0 { flex-grow: 0; }
-.flex-grow--1, .grow--1 { flex-grow: 1; }
-.flex-wrap-reverse {
-  flex-wrap: wrap-reverse;
+$growValues: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, initial, inherit, unset);
+$shrinkValues: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, initial, inherit, unset);
+$negativeOrders: (-10, -9, -8, -7, -6, -5, -4, -3, -2, -1);
+$positiveOrders: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, initial, inherit, unset);
+
+$justifyValues: (
+  auto: auto, 
+  start: flex-start, 
+  end: flex-end,
+  end-safe: safe flex-end,
+  center: center,
+  center-safe: safe center,
+  between: space-between,
+  around: space-around,
+  evenly: space-evenly,
+  stretch: stretch,
+  baseline: baseline,
+  normal: normal
+);
+$alignItems: ( 
+  start: flex-start, 
+  end: flex-end,
+  end-safe: safe flex-end,
+  center: center,
+  center-safe: safe center,
+  stretch: stretch,
+  baseline: baseline,
+  baseline-last: last baseline,
+  normal: normal
+);
+$alignSelf: ( 
+  auto: auto, 
+  start: flex-start, 
+  end: flex-end,
+  end-safe: safe flex-end,
+  center: center,
+  center-safe: safe center,
+  stretch: stretch,
+  baseline: baseline,
+  baseline-last: last baseline,
+  normal: normal
+);
+
+$alignContent: (
+  normal: auto, 
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  between: space-between,
+  around: space-around,
+  stretch: stretch,
+  baseline: baseline,
+  evenly: space-evenly,
+);
+
+@mixin flexUtils() {
+  .flex { display: flex; }
+  .flex--1 { flex: 1; }
+  .flex--none { flex: none; }
+  .flex--auto { flex: auto; }
+  .flex--initial { flex: 0 auto; }
+  .flex--row { flex-direction: row; }
+  .flex--col { flex-direction: column; }
+  .flex--row-reverse { flex-direction: row-reverse; }
+  .flex--col-reverse { flex-direction: column-reverse; }
+  .no-wrap { flex-wrap: nowrap; }
+  
+  .wrap { flex-wrap: wrap; }
+  .wrap-reverse { flex-wrap: wrap-reverse; }
+  @each $shrink in $shrinkValues {
+    .shrink--#{$shrink} { flex-shrink: $shrink; }
+  }
+  
+  .grow { flex-grow: 1; }
+  @each $grow in $growValues {
+    .grow--#{$grow} { flex-grow: $grow; }
+  }
+  
+  @each $order in $negativeOrders {
+    .order\:#{$order} { order: $order; }
+  }
+
+  @each $order in $positiveOrders {
+    .order--#{$order} { order: $order; }
+  }
+  
+  .flex--center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @each $items, $value in $alignItems {
+    .items--#{$items} { align-items: #{$value}; }
+  }
+  @each $self, $value in $alignSelf {
+    .self--#{$self} { align-self: #{$value}; }
+  }
+  @each $justify, $value in $justifyValues {
+    .justify--#{$justify} { justify-content: #{$value}; }
+  }
+
+  @each $align, $value in $alignContent {
+    .content--#{$align} { align-content: #{$value}; }
+  }
 }
-.flex--center {
-  justify-content: center;
-  align-items: center;
-}
-.items--center { align-items: center; }
-.items--end { align-items: flex-end; }
-.items--start { align-items: flex-start; }
-.items--baseline { align-items: baseline; }
-.items--stretch { align-items: stretch; }
-.justify--center { justify-content: center; }
-.justify--between { justify-content: space-between; }
-.justify--around { justify-content: space-around; }
-.justify--evenly { justify-content: space-evenly; }

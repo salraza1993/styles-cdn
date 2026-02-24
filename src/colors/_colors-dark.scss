@@ -1,0 +1,8 @@
+@use '../scss/color-classes' as *;
+@media (prefers-color-scheme: dark) {
+  @include setClasses('dark');
+}
+
+:root:is(.dark, .dark-mode, .dark-theme, [data-theme='dark'], [data-mode='dark'], [data-color-mode='dark']) {
+  @include setClasses('dark');
+}

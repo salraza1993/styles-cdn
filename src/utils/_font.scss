@@ -1,0 +1,193 @@
+:root {
+  /* ===========[ FONT SIZE INTERNAL SCALE ]=========== */
+  --step-0-min: var(--fs-base-min);
+  --step-0-max: var(--fs-base-max);
+
+  /* Scale up */
+  --step-1-min: calc(var(--step-0-min) * var(--fs-ratio));
+  --step-1-max: calc(var(--step-0-max) * var(--fs-ratio));
+  --step-2-min: calc(var(--step-1-min) * var(--fs-ratio));
+  --step-2-max: calc(var(--step-1-max) * var(--fs-ratio));
+  --step-3-min: calc(var(--step-2-min) * var(--fs-ratio));
+  --step-3-max: calc(var(--step-2-max) * var(--fs-ratio));
+  --step-4-min: calc(var(--step-3-min) * var(--fs-ratio));
+  --step-4-max: calc(var(--step-3-max) * var(--fs-ratio));
+  --step-5-min: calc(var(--step-4-min) * var(--fs-ratio));
+  --step-5-max: calc(var(--step-4-max) * var(--fs-ratio));
+  --step-6-min: calc(var(--step-5-min) * var(--fs-ratio));
+  --step-6-max: 3.75rem; /* h1 cap = 60px */
+
+  /* Scale down */
+  --step--1-min: calc(var(--step-0-min) / var(--fs-ratio));
+  --step--1-max: calc(var(--step-0-max) / var(--fs-ratio));
+  --step--2-min: calc(var(--step--1-min) / var(--fs-ratio));
+  --step--2-max: calc(var(--step--1-max) / var(--fs-ratio));
+
+  /* Clamp fluid */
+  --step--2: clamp(var(--step--2-min), calc(var(--step--2-min) + var(--fs-fluid-step)), var(--step--2-max));
+  --step--1: clamp(var(--step--1-min), calc(var(--step--1-min) + var(--fs-fluid-step)), var(--step--1-max));
+  --step-0: clamp(var(--step-0-min), calc(var(--step-0-min) + var(--fs-fluid-step)), var(--step-0-max));
+  --step-1: clamp(var(--step-1-min), calc(var(--step-1-min) + var(--fs-fluid-step)), var(--step-1-max));
+  --step-2: clamp(var(--step-2-min), calc(var(--step-2-min) + var(--fs-fluid-step)), var(--step-2-max));
+  --step-3: clamp(var(--step-3-min), calc(var(--step-3-min) + var(--fs-fluid-step)), var(--step-3-max));
+  --step-4: clamp(var(--step-4-min), calc(var(--step-4-min) + var(--fs-fluid-step)), var(--step-4-max));
+  --step-5: clamp(var(--step-5-min), calc(var(--step-5-min) + var(--fs-fluid-step)), var(--step-5-max));
+  --step-6: clamp(var(--step-6-min), calc(var(--step-6-min) + var(--fs-fluid-step)), var(--step-6-max));
+
+  /* ===========[ LINE HEIGHT INTERNAL SCALE ]=========== */
+  --lh-step-0: var(--base-leading);
+  --lh-step-1: calc(var(--lh-step-0) * var(--leading-ratio));
+  --lh-step-2: calc(var(--lh-step-1) * var(--leading-ratio));
+  --lh-step-3: calc(var(--lh-step-2) * var(--leading-ratio));
+  --lh-step-4: calc(var(--lh-step-3) * calc(var(--leading-ratio) * 1.1));
+  --lh-step-5: calc(var(--lh-step-4) * calc(var(--leading-ratio) * 1.15));
+
+  --lh-step--1: calc(var(--lh-step-0) / var(--leading-ratio));
+  --lh-step--2: calc(var(--lh-step--1) / var(--leading-ratio));
+}
+
+/* ===========[ PUBLIC FONT SIZE TOKENS (SEMANTIC) ]=========== */
+:root {
+  --fs--1: var(--step-6); /* h1 */
+  --fs--2: var(--step-5); /* h2 */
+  --fs--3: var(--step-4); /* h3 */
+  --fs--4: var(--step-3); /* h4 */
+  --fs--5: var(--step-2); /* h5 */
+  --fs--6: var(--step-1); /* h6 */
+  --fs--lg: var(--step-1);
+  --fs--md: var(--step-0);
+  --fs--sm: var(--step--1);
+  --fs--xs: var(--step--2);
+
+  /* ===========[ PUBLIC LINE HEIGHT TOKENS ]=========== */
+  /* Headings */
+  --lh--1: var(--lh-step-5);
+  --lh--2: var(--lh-step-4);
+  --lh--3: var(--lh-step-3);
+  --lh--4: var(--lh-step-2);
+  --lh--5: var(--lh-step-1);
+  --lh--6: var(--lh-step-1);
+
+  /* Body */
+  --lh--lg: var(--lh-step-0);
+  --lh--md: var(--lh-step-0);
+  --lh--sm: var(--lh-step--1);
+  --lh--xs: var(--lh-step--2);
+}
+$lineHeightValues: (
+  normal: normal,
+  none: 1,
+  sm: 1.25,
+  md: 1.5,
+  lg: 1.75,
+  xl: 2
+);
+
+$fontWeights: (
+  "thin": 100,
+  "ex-light": 200,
+  "light": 300,
+  "normal": 400,
+  "medium": 500,
+  "semi-bold": 600,
+  "bold": 700,
+  "ex-bold": 800,
+  "black": 900
+);
+
+
+@mixin fontUtils() {
+  .italic { font-style: italic; }
+  .no-italic { font-style: normal; }
+
+  
+  @each $name, $value in $lineHeightValues {
+    .lh--#{$name} {
+      line-height: $value;
+    }
+  }
+
+  @each $name, $value in $fontWeights {
+    .fw--#{$name},
+    .fw--\/\[#{$value}\] {
+      font-weight: $value;
+    }
+  }
+
+  /* Headings */
+  h1,
+  .h1,
+  .fs--h1 {
+    font-size: var(--fs--1);
+    line-height: var(--lh--1);
+    font-weight: var(--fw--700);
+  }
+
+  h2,
+  .h2,
+  .fs--h2 {
+    font-size: var(--fs--2);
+    line-height: var(--lh--2);
+    font-weight: var(--fw--700);
+  }
+
+  h3,
+  .h3,
+  .fs--h3 {
+    font-size: var(--fs--3);
+    line-height: var(--lh--3);
+    font-weight: var(--fw--700);
+  }
+
+  h4,
+  .h4,
+  .fs--h4 {
+    font-size: var(--fs--4);
+    line-height: var(--lh--4);
+    font-weight: var(--fw--500);
+  }
+
+  h5,
+  .h5,
+  .fs--h5 {
+    font-size: var(--fs--5);
+    line-height: var(--lh--5);
+    font-weight: var(--fw--500);
+  }
+
+  h6,
+  .h6,
+  .fs--h6 {
+    font-size: var(--fs--6);
+    line-height: var(--lh--6);
+    font-weight: var(--fw--500);
+  }
+
+  /* Body text */
+  p,
+  .fs--md,
+  .text--medium,
+  .text-body,
+  .text--p,
+  .paragraph,
+  .paragraph-text {
+    font-size: var(--fs--md);
+    line-height: var(--lh--md);
+  }
+  .fs--lg,
+  .text--large {
+    font-size: var(--fs--lg);
+    line-height: var(--lh--lg);
+  }
+  .fs--sm,
+  .text--small,
+  small {
+    font-size: var(--fs--sm);
+    line-height: var(--lh--sm);
+  }
+  .fs--xs,
+  .text--extra-small {
+    font-size: var(--fs--xs);
+    line-height: var(--lh--xs);
+  }
+}

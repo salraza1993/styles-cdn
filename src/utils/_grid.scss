@@ -1,25 +1,112 @@
-.flex { display: flex; }
-.inline--flex { display: inline-flex; }
-.flex--row, .flex--row { flex-direction: row; }
-.flex--column, .flex--cols { flex-direction: column; }
-.flex--row-reverse, .row-reverse { flex-direction: row-reverse; }
-.flex--column-reverse, .column-reverse { flex-direction: column-reverse; }
-.flex--no-wrap, .no-wrap { flex-wrap: nowrap; }
-.flex--wrap, .wrap { flex-wrap: wrap; }
-.flex-shrink--0, .shrink--0 { flex-shrink: 0; }
-.flex-shrink--1, .shrink--1 { flex-shrink: 1; }
-.flex-grow--0, .grow--0 { flex-grow: 0; }
-.flex-grow--1, .grow--1 { flex-grow: 1; }
-.flex--center {
-  justify-content: center;
-  align-items: center;
+@use "sass:list";
+$gridCols: 10;
+$justifyItems: (
+  start: start, 
+  end: end,
+  end-safe: safe end,
+  center: center,
+  center-safe: safe center,
+  stretch: stretch,
+  normal: normal
+);
+
+$justifySelf: (
+  auto: auto, 
+  start: start,
+  center: center,
+  center-safe: safe center,
+  end: end,
+  end-safe: safe end,
+  stretch: stretch,
+);
+$placeContent: (
+  auto: auto, 
+  start: start,
+  end: end,
+  end-safe: safe end,
+  center: center,
+  center-safe: safe center,
+  content-between: space-between,
+  content-around: space-around,
+  content-evenly: space-evenly,
+  stretch: stretch,
+  baseline: baseline,
+  normal: normal
+);
+$placeItems: (
+  auto: auto, 
+  start: start,
+  end: end,
+  end-safe: safe end,
+  center: center,
+  center-safe: safe center,
+  stretch: stretch,
+  baseline: baseline,
+  normal: normal
+);
+$placeSelf: (
+  auto: auto, 
+  start: start,
+  end: end,
+  end-safe: safe end,
+  center: center,
+  center-safe: safe center,
+  stretch: stretch,
+  normal: normal
+);
+
+@mixin gridUtils() {
+  .grid { display: grid; }
+  .inline--grid { display: inline-grid; }
+
+  .col-span--full { grid-column: 1 / -1; }
+  .row-span--full { grid-row: 1 / -1; }
+  .col-start--auto { grid-column-start: auto; }
+  .col-end--auto { grid-column-end: auto; }
+  .row-start--auto { grid-row-start: auto; }
+  .row-end--auto { grid-row-end: auto; }
+  
+  .grid-flow-row-dense { grid-auto-flow: row dense; }
+  .grid-flow-col-dense { grid-auto-flow: column dense; }
+
+  .auto-cols-auto { grid-auto-columns: auto; }
+  .auto-cols-min { grid-auto-columns: min-content; }
+  .auto-cols-max { grid-auto-columns: max-content; }
+  .auto-cols-fr { grid-auto-columns: minmax(0, 1fr); }
+
+  .auto-rows-auto { grid-auto-rows: auto; }
+  .auto-rows-min { grid-auto-rows: min-content; }
+  .auto-rows-max { grid-auto-rows: max-content; }
+  .auto-rows-fr { grid-auto-rows: minmax(0, 1fr); }
+
+  @for $i from 1 through $gridCols {
+    .grid-cols--#{$i} { grid-template-columns: repeat($i, minmax(0, 1fr)); }
+    .grid-rows--#{$i} { grid-template-rows: repeat($i, minmax(0, 1fr)); }
+
+    .col-span--#{$i} { grid-column: span $i / span $i; }
+    .col--#{$i} { grid-column: $i; }
+    .row-span--#{$i} { grid-row: span $i / span $i; }
+    .row--#{$i} { grid-row: $i; }
+
+    .col-start--#{$i} { grid-column-start: $i; }
+    .col-end--#{$i} { grid-column-end: $i; }
+    .row-start--#{$i} { grid-row-start: $i; }
+    .row-end--#{$i} { grid-row-end: $i; }
+  }
+
+  @each $justify, $value in $justifyItems {
+    .justify-items--#{$justify} { justify-items: #{$value}; }
+  }
+  @each $justify, $value in $justifySelf {
+    .justify-self--#{$justify} { justify-self: #{$value}; }
+  }
+  @each $place, $value in $placeContent {
+    .place-content--#{$place} { place-content: #{$value}; }
+  }
+  @each $place, $value in $placeItems {
+    .place-items--#{$place} { place-items: #{$value}; }
+  }
+  @each $place, $value in $placeSelf {
+    .place-self--#{$place} { place-self: #{$value}; }
+  }
 }
-.items--center { align-items: center; }
-.items--end { align-items: flex-end; }
-.items--start { align-items: flex-start; }
-.items--baseline { align-items: baseline; }
-.items--stretch { align-items: stretch; }
-.justify--center { justify-content: center; }
-.justify--between { justify-content: space-between; }
-.justify--around { justify-content: space-around; }
-.justify--evenly { justify-content: space-evenly; }

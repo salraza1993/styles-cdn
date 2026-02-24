@@ -1,0 +1,163 @@
+@use "./utils-vars" as *;
+
+$objectFitValues: (
+  cover: cover,
+  contain: contain,
+  fill: fill,
+  none: none,
+  scale-down: scale-down
+);
+
+$objectPositionValues: (
+  center: center,
+  top: top,
+  bottom: bottom,
+  left: left,
+  right: right
+);
+
+$lineClampValues: (
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  none: none
+);
+
+$positionValues: (
+  static: static,
+  relative: relative,
+  absolute: absolute,
+  fixed: fixed,
+  sticky: sticky
+);
+
+$textColors: (
+  inherit: inherit,
+  current: currentColor,
+  transparent: transparent,
+  black: black,
+  white: white,
+);
+
+
+@mixin zIndexUtils() {
+  @each $zIndex in $zIndexes {
+    @if($zIndex == "-5" or $zIndex == "-4" or $zIndex == "-3" or $zIndex == "-2" or $zIndex == "-1") {
+      .z-index\:#{$zIndex},
+      .active\:z-index\:#{$zIndex}.active,
+      .hover\:z-index\:#{$zIndex}:hover,
+      .focus\:z-index\:#{$zIndex}:focus { z-index: #{$zIndex}; }
+    } @else {
+      .z-index\:#{$zIndex},
+      .active\:z-index\:\/#{$zIndex}.active,
+      .hover\:z-index\:\/#{$zIndex}:hover,
+      .focus\:z-index\:\/#{$zIndex}:focus { z-index: #{$zIndex}; }
+    }
+  }
+}
+
+@mixin overflowUtils() {
+  // Base overflow
+  @each $value in $overflows {
+    .overflow--#{$value} {
+      overflow: $value;
+    }
+  }
+
+  // Axis overflow (x & y)
+  @each $axis in $axes {
+    @each $value in $overflows {
+      .overflow-#{$axis}--#{$value} {
+        overflow-#{$axis}: $value;
+      }
+    }
+  }
+}
+
+@mixin inlineSizesUtils() {
+  @each $name, $value in $inlineBlockSizes {
+    .inline--#{$name} {
+      inline-size: $value;
+    }
+    .min-inline-#{$name} {
+      min-inline-size: $value;
+    }
+    .max-inline-#{$name} {
+      max-inline-size: $value;
+    }
+  }
+
+  @each $name, $value in $widthHeightPercentages {
+    .inline-#{$name} {
+      inline-size: $value;
+    }
+    .min-inline-#{$name} {
+      min-inline-size: $value;
+    }
+    .max-inline-#{$name} {
+      max-inline-size: $value;
+    }
+  }
+}
+
+@mixin blockSizesUtils() {
+  @each $name, $value in $inlineBlockSizes {
+    .block--#{$name} {
+      block-size: $value;
+    }
+    .min-block-#{$name} {
+      min-block-size: $value;
+    }
+    .max-block-#{$name} {
+      max-block-size: $value;
+    }
+  }
+
+  @each $name, $value in $widthHeightPercentages {
+    .block-#{$name} {
+      block-size: $value;
+    }
+    .min-block-#{$name} {
+      min-block-size: $value;
+    }
+    .max-block-#{$name} {
+      max-block-size: $value;
+    }
+  }
+}
+
+@mixin othersUtils() {
+  @each $name, $value in $objectFitValues {
+    .object-fit--#{$name} {
+      object-fit: $value;
+    }
+  }
+  @each $name, $value in $objectPositionValues {
+    .object-position--#{$name} {
+      object-position: $value;
+    }
+  }
+  @each $name, $value in $positionValues {
+    .position--#{$name} {
+      position: $value;
+    }
+  }
+  @each $name, $value in $textColors {
+    .text-color--#{$name} {
+      color: $value;
+    }
+  }
+  @each $name, $value in $lineClampValues {
+    .line-clamp--#{$name} {
+      overflow: hidden;
+      display: -webkit-box;
+      line-clamp: $value;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: $value;
+    }
+  }
+
+}

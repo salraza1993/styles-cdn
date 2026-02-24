@@ -1,0 +1,68 @@
+@use "./utils-vars" as *;
+$textTransforms: (
+  uppercase: uppercase,
+  lowercase: lowercase,
+  capitalize: capitalize,
+  normal-case: none
+);
+
+$textOverflow: (
+  clip: clip,
+  ellipsis: ellipsis,
+  truncate: fade
+);
+
+// ======== Text Align ======== //
+@mixin textAlignUtilities() {
+  @each $align in $textAligns {
+    @if( $align == "balance" or $align == "pretty" ) {
+      .text--#{$align} {
+        text-wrap: #{$align};
+      }
+    } @else {
+      .text--#{$align} {
+        text-align: #{$align};
+      }
+    }
+  }
+}
+@mixin textVerticalAlignUtilities() {
+  @each $align in $textVAlgin {
+    .align--#{$align} {
+      vertical-align: #{$align};
+    }
+  }
+}
+
+@mixin textDecorationUtilities() {
+  @each $class, $decoration in $textDecorations {
+    .#{$class} {
+      text-decoration-line: #{$decoration};
+    }
+  }
+}
+@mixin textUtilities() {
+  .text--wrap { white-space: normal; }
+  .text--no-wrap { white-space: nowrap; }
+
+  @include textAlignUtilities();
+  @include textVerticalAlignUtilities();
+  @include textDecorationUtilities();
+
+  @each $name, $value in $textTransforms {
+    .#{$name} {
+      text-transform: $value;
+    }
+  }
+  @each $name, $value in $textOverflow {
+    .#{$name} {
+      @if($value == "truncate") {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      } @else {
+        text-overflow: $value;
+      }
+    }
+  }
+}

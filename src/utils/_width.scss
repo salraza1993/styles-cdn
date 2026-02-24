@@ -1,0 +1,54 @@
+@use 'sass:math';
+@use './functions' as *;
+@use './utils-vars' as *;
+
+@mixin widthUtils() {
+  .wh--full { width: 100%; height: 100%; }
+  .wh--half { width: 50%; height: 50%; }
+   @each $name, $value in $widthHeight {
+    .w--#{$name} {
+      width: $value;
+    }
+  }
+
+  @each $percentage in $percentages {
+    $label: math.div($percentage, 1%);
+    .w-#{$label}\%,
+    .w--#{$label} {
+      height: $percentage;
+    }
+  }
+  @each $key, $value in $containerSizes {
+    .w--#{$key} {
+      width: $value;
+    }
+  }
+  @each $key, $value in $squareSizes {
+    .size--#{$key} {
+      width: $value;
+      height: $value;
+    }
+  }
+
+  @each $percentage in $percentages {
+    $label: math.div($percentage, 1%);
+    .w-#{$label}\%,
+    .w--#{$label} {
+      width: $percentage;
+    }
+  }
+  @each $fraction, $percentage in $widthHeightPercentages {
+    .w-#{$fraction} {
+      width: $percentage;
+    }
+  }
+
+  @each $size in $fixedSizes {
+    $value: pxToRem($size);
+    .w--#{$size},
+    .min-w--#{$size},
+    .max-w--#{$size} {
+      width: $value;
+    }
+  }
+}

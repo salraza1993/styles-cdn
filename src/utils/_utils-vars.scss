@@ -1,19 +1,22 @@
+@use "sass:map";
+
 @mixin utilsVariables() {
   :root {
     --spacing: var(--base-spacing, 0.25rem);
     --spacing--xs: calc(var(--spacing) * 1);
-    --spacing--sm: calc(var(--spacing) * 1.25);
-    --spacing--md: calc(var(--spacing) * 1.5);
-    --spacing--lg: calc(var(--spacing) * 1.75);
-    --spacing--xl: calc(var(--spacing) * 2);
-    --spacing--2xl: calc(var(--spacing) * 2.25);
-    --spacing--3xl: calc(var(--spacing) * 2.5);
-    --spacing--4xl: calc(var(--spacing) * 2.75);
-    --spacing--5xl: calc(var(--spacing) * 3);
-    --spacing--6xl: calc(var(--spacing) * 4.5);
-    --spacing--7xl: calc(var(--spacing) * 6.5);
-    --spacing--9xl: calc(var(--spacing) * 8);
-    --spacing--10xl: calc(var(--spacing) * 10);
+    --spacing--sm: calc(var(--spacing) * 2);
+    --spacing--md: calc(var(--spacing) * 3);
+    --spacing--lg: calc(var(--spacing) * 4);
+    --spacing--xl: calc(var(--spacing) * 5);
+    --spacing--2xl: calc(var(--spacing) * 6);
+    --spacing--3xl: calc(var(--spacing) * 7);
+    --spacing--4xl: calc(var(--spacing) * 8);
+    --spacing--5xl: calc(var(--spacing) * 9);
+    --spacing--6xl: calc(var(--spacing) * 10);
+    --spacing--7xl: calc(var(--spacing) * 11);
+    --spacing--8xl: calc(var(--spacing) * 12);
+    --spacing--9xl: calc(var(--spacing) * 13);
+    --spacing--10xl: calc(var(--spacing) * 14);
 
     --radius: var(--base-radius, 0.5rem);
     --radius--xs: calc(var(--radius) / 1.85);
@@ -38,23 +41,44 @@
     --gap--8xl: calc(var(--gap) * 6);
     --gap--9xl: calc(var(--gap) * 6.5);
     --gap--10xl: calc(var(--gap) * 8);
+
+    --container--3xs: 16rem; /* 256px */
+    --container--2xs: 18rem; /* 288px */
+    --container--xs: 20rem; /* 320px */
+    --container--sm: 24rem; /* 384px */
+    --container--md: 28rem; /* 448px */
+    --container--lg: 32rem; /* 512px */
+    --container--xl: 36rem; /* 576px */
+    --container--2xl: 42rem; /* 672px */
+    --container--3xl: 48rem; /* 768px */
+    --container--4xl: 56rem; /* 896px */
+    --container--5xl: 64rem; /* 1024px */
+    --container--6xl: 72rem; /* 1152px */
+    --container--7xl: 80rem; /* 1280px */
+    --container--8xl: 82.5rem; /* 1320px */
+    --container--9xl: 85rem; /* 1360px */
+    --container--10xl: 87.5rem; /* 1400px */
+
+    --font-system-ui: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+    --fs-base-min: 0.725rem; /* 11.6px */
+    --fs-base-max: 1rem; /* 16px */
+    --fs-ratio: 1.25;
+    --fs-fluid-step: 0.6vw;
+    --base-leading: 1.6;
+    --leading-ratio: 0.92;
   }
 }
 
-$sizes: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '9xl', '10xl');
-$axises: ('start', 'end', 'auto', '0');
-$margins: ('m', 'mx', 'mx-start', 'mx-end', 'my', 'my-start', 'my-end');
-$paddings: ('p', 'px', 'px-start', 'px-end', 'py', 'py-start', 'py-end');
-$radiuses: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', 'none', 'full', 'inherit', 'initial', 'unset');
-$radiusAxises: ('start-start', 'start-end', 'end-start', 'end-end', 'top-left', 'top-right', 'bottom-left', 'bottom-right');
-
-$gapSizes: ('xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl', '10xl');
-$gapAxises: ('row', 'col', 'auto', '0');
-
-$zIndexes: ('-5', '-4', '-3', '-2', '-1', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'initial', 'unset');
-$textAligns: ('start', 'center', 'end', 'justify', 'left', 'right', 'balance', 'pretty');
-
-$textVAlgin: ('baseline', 'bottom', 'middle', 'top', 'text-top', 'text-bottom', 'sub', 'super', 'inherit', 'initial', 'unset');
+$sizes: (xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, 8xl, 9xl, 10xl);
+$axises: (start, end, auto, 0);
+$margins: (m, mx, mx-start, mx-end, my, my-start, my-end);
+$paddings: (p, px, px-start, px-end, py, py-start, py-end);
+$radiuses: (xs, sm, md, lg, xl, 2xl, none, full, inherit, initial, unset);
+$radiusAxises: (start-start, start-end, end-start, end-end, top-left, top-right, bottom-left, bottom-right);
+$gapAxises: (row, col, auto, 0);
+$zIndexes: (-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, initial, unset);
+$textAligns: (start, center, end, justify, left, right, balance, pretty);
+$textVAlgin: (baseline, bottom, middle, top, text-top, text-bottom, sub, super, inherit, initial, unset);
 
 $opacities: (
   0: 0,
@@ -73,21 +97,87 @@ $opacities: (
   95: 0.95,
   100: 1
 );
-$inlineClasses: (
-  'inline--block': 'inline-block',
-  'inline--flex': 'inline-flex',
-  'inline--grid': 'inline-grid',
-  'block': 'block',
-  'table': 'table'
+
+
+$widthHeightPercentages: (
+  '1\\/2': 50%,
+  '1\\/3': 33.3333%,
+  '2\\/3': 66.6667%,
+  '1\\/4': 25%,
+  '2\\/4': 50%,
+  '3\\/4': 75%,
+  '1\\/5': 20%,
+  '2\\/5': 40%,
+  '3\\/5': 60%,
+  '4\\/5': 80%,
+  'full': 100%
 );
 
+$percentages: (0%, 5%, 10%, 15%, 20%, 25%, 30%, 35%, 40%, 45%, 50%, 55%, 60%, 65%, 70%, 75%, 80%, 85%, 90%, 95%, 100%);
+$fixedSizes: (10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400);
+$widthHeight: (
+  auto: auto,
+  fit: fit-content,
+  max: max-content,
+  min: min-content,
+  screen: 100vw,
+  min-screen: 100vmin,
+  dvw: 100dvw,
+  dvh: 100dvh,
+  lvw: 100lvw,
+  lvh: 100lvh,
+  svw: 100svw,
+  svh: 100svh,
+  half: 50%,
+  full: 100%,
+);
+
+$spacingVariables: (
+  xs: var(--spacing--xs),
+  sm: var(--spacing--sm),
+  md: var(--spacing--md),
+  lg: var(--spacing--lg),
+  xl: var(--spacing--xl),
+  2xl: var(--spacing--2xl),
+  3xl: var(--spacing--3xl),
+  4xl: var(--spacing--4xl),
+  5xl: var(--spacing--5xl),
+  6xl: var(--spacing--6xl),
+  7xl: var(--spacing--7xl),
+  8xl: var(--spacing--8xl), 
+  9xl: var(--spacing--9xl),
+  10xl: var(--spacing--10xl)
+);
+
+$containerSizes: (
+  3xs: var(--container--3xs),
+  2xs: var(--container--2xs),
+  xs: var(--container--xs),
+  sm: var(--container--sm),
+  md: var(--container--md),
+  lg: var(--container--lg),
+  xl: var(--container--xl),
+  2xl: var(--container--2xl),
+  3xl: var(--container--3xl),
+  4xl: var(--container--4xl),
+  5xl: var(--container--5xl),
+  6xl: var(--container--6xl),
+  7xl: var(--container--7xl),
+  8xl: var(--container--8xl),
+  9xl: var(--container--9xl),
+  10xl: var(--container--10xl)
+);
+
+$inlineBlockSizes: map.merge($widthHeight, $containerSizes);
+$squareSizes: map.merge($widthHeight, $spacingVariables);
+
 $textDecorations: (
-  'underline': 'underline',
-  'overline': 'overline',
-  'line-through': 'line-through',
-  'no-underline': 'none',
-  'grammar-error': 'grammar-error',
-  'spelling-error': 'spelling-error'
+  underline: underline,
+  overline: overline,
+  line-through: line-through,
+  no-underline: none,
+  grammar-error: grammar-error,
+  spelling-error: spelling-error
 );
 
 $overflows: auto, hidden, clip, visible, scroll;

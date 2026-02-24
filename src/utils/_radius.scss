@@ -1,0 +1,42 @@
+@use "./utils-vars" as *;
+
+
+@mixin radiusUtils() {
+  .rounded {
+    border-radius: var(--radius);
+  }
+  @each $radius in $radiuses {
+    @if($radius == "inherit" or $radius == "initial" or $radius == "unset") {
+      .rounded--#{$radius} {
+        border-radius: #{$radius};
+      }
+    } @else if($radius == "none") {
+      .rounded--#{$radius} {
+        border-radius: 0;
+      }
+    } @else if($radius == "full") {
+      .rounded--#{$radius} {
+        border-radius: 100vw;
+      }
+    } @else {
+      .rounded--#{$radius} {
+        border-radius: var(--radius--#{$radius});
+      }
+    }
+  }
+  @each $axis in $radiusAxises {
+    @each $radius in $radiuses {
+      .rounded-#{$axis}--#{$radius} {
+        @if($radius == "inherit" or $radius == "initial" or $radius == "unset") {
+          border-#{$axis}-radius: #{$radius};
+        } @else if($radius == "none") {
+          border-#{$axis}-radius: 0;
+        } @else if($radius == "full") {
+          border-#{$axis}-radius: 100vw;
+        } @else {
+          border-#{$axis}-radius: var(--radius--#{$radius});
+        }
+      }
+    }
+  }
+}

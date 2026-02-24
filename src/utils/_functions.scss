@@ -1,0 +1,5 @@
+@use 'sass:math';
+@function pxToRem($pxValue, $base: 16) {
+  // Use math.div() to perform the division and then multiply by 1rem to add the unit
+  @return math.div($pxValue, $base) * 1rem;
+}

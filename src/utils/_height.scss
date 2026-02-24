@@ -1,0 +1,47 @@
+@use 'sass:math';
+@use './functions' as *;
+@use './utils-vars' as *;
+
+
+@mixin heightUtils() {
+   @each $name, $value in $widthHeight {
+    .h--#{$name} {
+      height: $value;
+    }
+  }
+
+  @each $percentage in $percentages {
+    $label: math.div($percentage, 1%);
+    .h-#{$label}\%,
+    .h--#{$label} {
+      height: $percentage;
+    }
+  }
+  @each $key, $value in $containerSizes {
+    .h--#{$key} {
+      height: $value;
+    }
+  }
+
+  @each $percentage in $percentages {
+    $label: math.div($percentage, 1%);
+    .h-#{$label}\%,
+    .h--#{$label} {
+      height: $percentage;
+    }
+  }
+  @each $fraction, $percentage in $widthHeightPercentages {
+    .h-#{$fraction} {
+      height: $percentage;
+    }
+  }
+
+  @each $size in $fixedSizes {
+    $value: pxToRem($size);
+    .h--#{$size},
+    .min-h--#{$size},
+    .max-h--#{$size} {
+      height: $value;
+    }
+  }
+}

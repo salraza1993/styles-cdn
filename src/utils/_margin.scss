@@ -1,0 +1,29 @@
+@use "./utils-vars" as *;
+@use "./mixins" as *;
+
+@mixin marginUtils($type) {
+  @each $margin in $margins {
+    @if($margin == "m") {
+      @include axisLoop($margin, "margin");
+      @include axisValueLoop($margin, "margin");
+    } @else if($margin == "mx") {
+      @include axisLoop($margin, "margin-inline");
+      @include axisValueLoop($margin, "margin-inline");
+    } @else if($margin == "my") {
+      @include axisLoop($margin, "margin-block");
+      @include axisValueLoop($margin, "margin-block");
+    } @else if($margin == "mx-start") {
+      @include axisLoop($margin, "margin-inline-start");
+      @include axisValueLoop($margin, "margin-inline-start");
+    } @else if($margin == "mx-end") {
+      @include axisLoop($margin, "margin-inline-end");
+      @include axisValueLoop($margin, "margin-inline-end");
+    } @else if($margin == "my-start") {
+      @include axisLoop($margin, "margin-block-start");
+      @include axisValueLoop($margin, "margin-block-start");
+    } @else if($margin == "my-end") {
+      @include axisLoop($margin, "margin-block-end");
+      @include axisValueLoop($margin, "margin-block-end");
+    }
+  }
+}

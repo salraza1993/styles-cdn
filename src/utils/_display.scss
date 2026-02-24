@@ -1,0 +1,54 @@
+$displayClasses: (
+  'inline': 'inline',
+  'inline--block': 'inline-block',
+  'inline--flex': 'inline-flex',
+  'inline--grid': 'inline-grid',
+  'inline--table': 'inline-table',
+  'block': 'block',
+  'flex': 'flex',
+  'grid': 'grid',
+  'table': 'table',
+  'table-caption': 'table-caption',
+  'table--cell': 'table-cell',
+  'table--column': 'table-column',
+  'table--column-group': 'table-column-group',
+  'table--footer-group': 'table-footer-group',
+  'table--row': 'table-row',
+  'table--row-group': 'table-row-group',
+  'table--header-group': 'table-header-group',
+  'flow-root': 'flow-root',
+  'contents': 'contents',
+  'list-item': 'list-item',
+  'hidden': 'none',
+  'sr-only': 'sr-only',
+  'not-sr-only': 'not-sr-only'
+);
+
+@mixin displayUtilities() {
+  @each $display, $value in $displayClasses {
+    .#{$display} {
+      @if ($display == 'sr-only') {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      } @else if($display == 'not-sr-only') {
+        position: static;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+      } @else {
+        display: #{$value};
+      }
+    }
+  }
+}

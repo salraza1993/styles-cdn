@@ -386,9 +386,9 @@ function build() {
     writeAliasFiles(basenameToSource);
     writeUtilsBundle(cssFiles);
 
-    const entryFile = path.join(buildSourceDir, 'index.css');
+    const entryFile = path.join(buildSourceDir, 'uifx.css');
     if (!fs.existsSync(entryFile)) {
-      throw new Error('Missing entry file. Add src/index.css or src/index.scss');
+      throw new Error('Missing entry file. Add src/uifx.css or src/uifx.scss');
     }
 
     const bundled = bundleFromEntry(entryFile);
