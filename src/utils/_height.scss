@@ -23,13 +23,6 @@
     }
   }
 
-  @each $percentage in $percentages {
-    $label: math.div($percentage, 1%);
-    .h-#{$label}\%,
-    .h--#{$label} {
-      height: $percentage;
-    }
-  }
   @each $fraction, $percentage in $widthHeightPercentages {
     .h-#{$fraction} {
       height: $percentage;

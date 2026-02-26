@@ -1,6 +1,7 @@
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
+  interpolate-size: allow-keywords;
 }
 body {
   margin: 0;

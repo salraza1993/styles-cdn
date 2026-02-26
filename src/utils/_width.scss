@@ -11,13 +11,6 @@
     }
   }
 
-  @each $percentage in $percentages {
-    $label: math.div($percentage, 1%);
-    .w-#{$label}\%,
-    .w--#{$label} {
-      height: $percentage;
-    }
-  }
   @each $key, $value in $containerSizes {
     .w--#{$key} {
       width: $value;

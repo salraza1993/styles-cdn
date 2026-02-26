@@ -1,4 +1,6 @@
 :root {
+  --white: #ffffff;
+  --black: #000000;
   /* =====[Primary Color Variables]===== */
   --primary--50: color-mix(in var(--color-mode), var(--primary) 5%, var(--lightness));
   --primary--100: color-mix(in var(--color-mode), var(--primary) 10%, var(--lightness));

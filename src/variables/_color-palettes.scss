@@ -1,5 +1,7 @@
 @use "../scss/color-palette" as *;
 :root {
+  --white: #ffffff;
+  --black: #000000;
   /* =====[Primary Color Variables]===== */
 	@include generatePalette(primary, var(--primary));
   /* =====[Secondary Color Variables]===== */
