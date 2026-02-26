@@ -1,6 +1,6 @@
 :root {
   --white: #ffffff;
-  --black: #000000;
+  --black: #151515;
   /* =====[Primary Color Variables]===== */
   --primary--50: color-mix(in var(--color-mode), var(--primary) 5%, var(--lightness));
   --primary--100: color-mix(in var(--color-mode), var(--primary) 10%, var(--lightness));
@@ -344,4 +344,5 @@
   --lightness: #ffffff;
   --darkness: #000000;
   --red: #fb2c36;
+  --base-border-color: light-dark(var(--neutral--200), var(--neutral--700));
 }

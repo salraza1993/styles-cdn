@@ -20,6 +20,8 @@
 }
 
 @mixin setClass($mode, $type, $property, $color, $shade) {
+  .bg-white, .bg-light { background-color: var(--white); }
+  .bg-dark, .bg-black { background-color: var(--black); }
   @if($mode == "dark") {
     .dark\:#{$type}-#{$color}--#{$shade} {
       #{$property}: var(--#{$color}--#{$shade});

@@ -42,6 +42,19 @@ $textColors: (
   white: white,
 );
 
+$borders: (
+  none: none,
+  hidden: hidden,
+  dotted: dotted,
+  dashed: dashed,
+  solid: solid,
+  double: double,
+  groove: groove,
+  ridge: ridge,
+  inset: inset,
+  outset: outset
+);
+
 
 @mixin zIndexUtils() {
   @each $zIndex in $zIndexes {
@@ -157,6 +170,16 @@ $textColors: (
       line-clamp: $value;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: $value;
+    }
+  }
+
+  @each $name, $value in $borders {
+    .border {
+      border-width: var(--base-border-width, 1px);
+      border-color: var(--base-border-color, currentColor);
+    }
+    .border--#{$name} {
+      border-style: $value;
     }
   }
 
