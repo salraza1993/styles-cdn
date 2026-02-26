@@ -387,7 +387,6 @@ function build() {
 
     const bundled = bundleFromEntry(entryFile);
     fs.writeFileSync(path.join(distDir, 'uifx.css'), bundled, 'utf8');
-    rewriteDarkVariantRulesAsNestedInDist();
     writeMinifiedCopies();
 
     console.log('Build complete ✅');
