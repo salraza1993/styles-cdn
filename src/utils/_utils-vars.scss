@@ -19,9 +19,9 @@
     --spacing--10xl: calc(var(--spacing) * 14);
 
     --radius: var(--base-radius, 0.5rem);
-    --radius--xs: calc(var(--radius) / 1.85);
-    --radius--sm: calc(var(--radius) / 1.5);
-    --radius--md: calc(var(--radius) * 1);
+    --radius--xs: calc(var(--radius) / 1.25);
+    --radius--sm: calc(var(--radius) * 1.25);
+    --radius--md: calc(var(--radius) * 1.75);
     --radius--lg: calc(var(--radius) * 3.25);
     --radius--xl: calc(var(--radius) * 4);
     --radius--2xl: calc(var(--radius) * 4.5);

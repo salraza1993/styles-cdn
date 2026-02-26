@@ -27,32 +27,32 @@ $lineClampValues: (
 );
 
 $positionValues: (
-  static: static,
-  relative: relative,
-  absolute: absolute,
-  fixed: fixed,
-  sticky: sticky
+  "static": static,
+  "relative": relative,
+  "absolute": absolute,
+  "fixed": fixed,
+  "sticky": sticky
 );
 
 $textColors: (
-  inherit: inherit,
-  current: currentColor,
-  transparent: transparent,
-  black: black,
-  white: white,
+  "inherit": inherit,
+  "current": currentColor,
+  "transparent": transparent,
+  "black": black,
+  "white": white,
 );
 
 $borders: (
-  none: none,
-  hidden: hidden,
-  dotted: dotted,
-  dashed: dashed,
-  solid: solid,
-  double: double,
-  groove: groove,
-  ridge: ridge,
-  inset: inset,
-  outset: outset
+  "none": none,
+  "hidden": hidden,
+  "dotted": dotted,
+  "dashed": dashed,
+  "solid": solid,
+  "double": double,
+  "groove": groove,
+  "ridge": ridge,
+  "inset": inset,
+  "outset": outset
 );
 
 
@@ -154,12 +154,14 @@ $borders: (
     }
   }
   @each $name, $value in $positionValues {
-    .position--#{$name} {
+    .position--#{$name},
+    .#{$name} {
       position: $value;
     }
   }
   @each $name, $value in $textColors {
-    .text-color--#{$name} {
+    .text-color--#{$name},
+    .text--#{$name} {
       color: $value;
     }
   }
