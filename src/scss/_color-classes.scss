@@ -2,7 +2,18 @@
 @use "./mixins" as *;
 @use "./color-vars" as *;
 
+@mixin setBaseBgAliases($mode: "light") {
+  @if($mode == "dark") {
+    .dark\:bg-white, .dark\:bg-light { background-color: var(--white); }
+    .dark\:bg-dark, .dark\:bg-black { background-color: var(--black); }
+  } @else {
+    .bg-white, .bg-light { background-color: var(--white); }
+    .bg-dark, .bg-black { background-color: var(--black); }
+  }
+}
+
 @mixin setClasses($mode: "light") {
+  @include setBaseBgAliases($mode);
   @for $i from 1 through list.length($types) {
     $type: list.nth($types, $i);
     $property: list.nth($properties, $i);

@@ -276,7 +276,7 @@ function rewriteDarkVariantRulesAsNested(filePath) {
   if (!fs.existsSync(filePath)) return;
 
   const content = fs.readFileSync(filePath, 'utf8');
-  const selectorRegex = /([^{}]+?)\s+(\.dark\\:[^\s{]+)\s*\{([\s\S]*?)\}/g;
+  const selectorRegex = /([^{}]+?)\s+((?:\.dark\\:[^\s,{]+(?:\s*,\s*\.dark\\:[^\s,{]+)*))\s*\{([\s\S]*?)\}/g;
   const matches = [...content.matchAll(selectorRegex)].filter(match => {
     const parentSelector = (match[1] ?? '').trim();
     return parentSelector && !parentSelector.startsWith('@');
@@ -308,27 +308,10 @@ function rewriteDarkVariantRulesAsNested(filePath) {
     group.rules.push({ childSelector, declarations });
   }
 
-  const orderedGroups = [...groups.values()].sort((a, b) => a.firstIndex - b.firstIndex);
+  const orderedGroups = [...groups.values()].sort((a, b) => b.firstIndex - a.firstIndex);
+  let rebuilt = content;
 
-  let stripped = '';
-  let cursor = 0;
-
-  const allRanges = orderedGroups
-    .flatMap(group => group.ranges)
-    .sort((a, b) => a[0] - b[0]);
-
-  for (const [start, end] of allRanges) {
-    stripped += content.slice(cursor, start);
-    cursor = end;
-
-    while (content[cursor] === '\r' || content[cursor] === '\n') cursor += 1;
-  }
-
-  stripped += content.slice(cursor);
-
-  let rebuilt = stripped;
-
-  for (const group of orderedGroups.sort((a, b) => b.firstIndex - a.firstIndex)) {
+  for (const group of orderedGroups) {
     const nestedRules = group.rules
       .map(rule => {
         const declarationLines = rule.declarations
@@ -341,6 +324,17 @@ function rewriteDarkVariantRulesAsNested(filePath) {
         return `  ${rule.childSelector} {\n${declarationLines}\n  }`;
       })
       .join('\n\n');
+
+    const groupRanges = [...group.ranges].sort((a, b) => b[0] - a[0]);
+    for (const [start, end] of groupRanges) {
+      rebuilt = `${rebuilt.slice(0, start)}${rebuilt.slice(end)}`;
+
+      let removeCursor = start;
+      while (rebuilt[removeCursor] === '\r' || rebuilt[removeCursor] === '\n') removeCursor += 1;
+      if (removeCursor > start) {
+        rebuilt = `${rebuilt.slice(0, start)}${rebuilt.slice(removeCursor)}`;
+      }
+    }
 
     const needsLeadingBreak = group.firstIndex > 0 && rebuilt[group.firstIndex - 1] !== '\n';
     const needsTrailingBreak = rebuilt[group.firstIndex] !== '\n';
