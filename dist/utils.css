@@ -5314,92 +5314,62 @@ small {
   -webkit-line-clamp: none;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--none {
   border-style: none;
-}
-
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
 }
 
 .border--hidden {
   border-style: hidden;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--dotted {
   border-style: dotted;
-}
-
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
 }
 
 .border--dashed {
   border-style: dashed;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--solid {
   border-style: solid;
-}
-
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
 }
 
 .border--double {
   border-style: double;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--groove {
   border-style: groove;
-}
-
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
 }
 
 .border--ridge {
   border-style: ridge;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--inset {
   border-style: inset;
 }
 
-.border {
-  border-width: var(--base-border-width, 1px);
-  border-color: var(--base-border-color, currentColor);
-}
-
 .border--outset {
   border-style: outset;
+}
+
+.border:not(.b-x--start, .b-x--end, .b-y--start, .b-y--end), .bordered:not(.b-x--start, .b-x--end, .b-y--start, .b-y--end) {
+  border: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+}
+
+.b-x--start {
+  border-inline-start: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+}
+
+.b-x--end {
+  border-inline-end: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+}
+
+.b-y--start {
+  border-block-start: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+}
+
+.b-y--end {
+  border-block-end: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
 }

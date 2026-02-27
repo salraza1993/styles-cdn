@@ -176,13 +176,25 @@ $borders: (
   }
 
   @each $name, $value in $borders {
-    .border {
-      border-width: var(--base-border-width, 1px);
-      border-color: var(--base-border-color, currentColor);
-    }
     .border--#{$name} {
       border-style: $value;
     }
   }
-
+  .border, .bordered {
+    &:not(.b-x--start, .b-x--end, .b-y--start, .b-y--end) {
+      border: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+    }
+  }
+  .b-x--start {
+    border-inline-start: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+  }
+  .b-x--end {
+    border-inline-end: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+  }
+  .b-y--start {
+    border-block-start: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+  }
+  .b-y--end {
+    border-block-end: var(--base-border-width, 1px) var(--base-border-style, solid) var(--base-border-color, currentColor);
+  }
 }
